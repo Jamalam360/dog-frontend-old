@@ -1,4 +1,5 @@
-const apiBase = "http://138.68.171.167:3601";
+//const apiBase = "http://138.68.171.167:3601";
+const apiBase = "http://localhost:3601";
 let imageInUse = "dog";
 
 window.onload = function () {
