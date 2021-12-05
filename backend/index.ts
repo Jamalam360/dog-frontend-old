@@ -2,7 +2,7 @@ import { Application } from "https://deno.land/x/oak@v9.0.1/mod.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import { router } from "./routes.ts";
 
-const PORT = 8001;
+const PORT = 3601;
 
 const app = new Application();
 
