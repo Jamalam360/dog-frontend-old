@@ -1,27 +1,52 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Dog Social Media</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <script type="text/javascript" src="api.js"></script>
-        <img id="dog" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/1200px-Question_mark_%28black%29.svg.png" class="dog-img">
-        <div style="text-align: center;">
-            <div class="image-container">
-                <img class="vote-button" src="img/upvote.png" onclick="upVote()">
-            </div>
-            <div class="image-container">
-                <img class="vote-button" src="img/downvote.png" onclick="downVote()">
-            </div>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dog Voting!</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="icon" type="image/x-icon" href="img/upvote.png">
+</head>
+
+<body>
+    <script type="text/javascript" src="api.js"></script>
+    <div style="text-align: center">
+        <div class="inline-block">
+            <img class="index-button" src="img/left.png" onclick="back()" draggable="false"></h1>
         </div>
-    </body>
+        <div class="inline-block">
+            <img class="index-button" src="img/right.png" onclick="forward()" draggable="false"></h1>
+        </div>
+    </div>
+    <img id="dog"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/1200px-Question_mark_%28black%29.svg.png"
+        class="dog-img"
+        draggable="false">
+    <img id="dog-2"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/1200px-Question_mark_%28black%29.svg.png"
+        class="dog-img hidden"
+        draggable="false">
+    <div style="text-align: center;">
+        <div class="inline-block">
+            <img id="upvote" class="vote-button" src="img/upvote.png" onclick="upVote()" draggable="false">
+        </div>
+        <div class="inline-block">
+            <img id="downvote" class="vote-button" src="img/downvote.png" onclick="downVote()" draggable="false">
+        </div>
+    </div>
+    <div style="text-align: center">
+        <div class="inline-block">
+            <h1 class="vote-text" id="votes"></h1>
+        </div>
+    </div>
+</body>
+
 </html>

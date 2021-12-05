@@ -1,23 +1,114 @@
 .dog-img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-height: 500px;
-    width:auto;
-    height:500px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 500px;
+  max-width: 100vw;
+  width: auto;
+  height: 500px;
+}
+
+.hidden {
+  display: none;
+}
+
+.dog-img-fade-out {
+  animation-name: fade;
+  animation-duration: 450ms;
+}
+
+.dog-img-fade-in {
+  animation-name: fade;
+  animation-duration: 450ms;
+  animation-direction: reverse;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .vote-button {
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    height: 128px; 
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 128px;
 }
 
-.image-container{
-    display: inline-block;
+.vote-button-active {
+    filter: opacity(0.5) drop-shadow(0 0 0 orange);
 }
 
-#image{
-    text-align:center;
+.vote-button:hover {
+  animation: vote-button-hover;
+  animation-duration: 2s;
+  transform: scale(1.12);
+}
+
+@keyframes vote-button-hover {
+  0% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.index-button {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 64px;
+}
+
+.index-button:hover {
+  animation: index-button-hover;
+  animation-duration: 2s;
+  transform: scale(1.12);
+}
+
+@keyframes index-button-hover {
+  0% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+#image {
+  text-align: center;
+}
+
+.vote-text {
+  font-family: "Raleway", sans-serif;
+  font-size: 50px;
+}
+
+.vote-shrink {
+  animation-name: animate-vote-change;
+  animation-duration: 175ms;
+}
+
+.vote-grow {
+  animation-name: animate-vote-change;
+  animation-duration: 175ms;
+  animation-direction: reverse;
+}
+
+@keyframes animate-vote-change {
+  from {
+    font-size: 50px;
+  }
+  to {
+    font-size: 40px;
+  }
 }
