@@ -4,6 +4,8 @@ import {
   getOrCreatePost,
   getOrCreateUser,
   removeVote,
+  addVoteToUser,
+  removeVoteFromUser,
 } from "./database.ts";
 
 export const router = new Router();
@@ -54,7 +56,16 @@ router.get("/posts/:index/removeVote", async (ctx) => {
   const user = await getOrCreateUser(ctx.request.ip);
   const index = parseInt(ctx.params.index as string);
 
+  let value = 0;
+
   if (user?.votedOn[index] == 1) {
+    value = 1;
+  } else if (user?.votedOn[index] == -1) {
+    value = -1;
+  }
+
+  if (user?.votedOn[index] == 1) {
+    await removeVoteFromUser(user, index);
     const post = await removeVote(index);
 
     if (post) {
@@ -63,6 +74,7 @@ router.get("/posts/:index/removeVote", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
+        value: 0,
       };
     } else {
       ctx.response.body = {
@@ -79,6 +91,7 @@ router.get("/posts/:index/removeVote", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
+        value: 0,
       };
     } else {
       ctx.response.body = {
@@ -98,11 +111,12 @@ router.get("/posts/:index/up", async (ctx) => {
   const user = await getOrCreateUser(ctx.request.ip);
   const index = parseInt(ctx.params.index as string);
 
-  if (user?.votedOn[index] == 0 || user?.votedOn[index] == -1) {
+  if (user?.votedOn[index] == 0) {
     if (user?.votedOn[index] == -1) {
       await addVote(index);
     }
 
+    await addVoteToUser(user!!, index, 1);
     const post = await addVote(index);
 
     if (post) {
@@ -111,6 +125,7 @@ router.get("/posts/:index/up", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
+        value: 1,
       };
     } else {
       ctx.response.body = {
@@ -130,11 +145,12 @@ router.get("/posts/:index/down", async (ctx) => {
   const user = await getOrCreateUser(ctx.request.ip);
   const index = parseInt(ctx.params.index as string);
 
-  if (user?.votedOn[index] == 0 || user?.votedOn[index] == 1) {
+  if (user?.votedOn[index] == 0) {
     if (user?.votedOn[index] == 1) {
       await removeVote(index);
     }
 
+    await addVoteToUser(user!!, index, -1);
     const post = await removeVote(index);
 
     if (post) {
@@ -143,6 +159,7 @@ router.get("/posts/:index/down", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
+        value: -1,
       };
     } else {
       ctx.response.body = {
