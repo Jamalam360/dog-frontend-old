@@ -51,12 +51,12 @@
 }
 
 .vote-button:hover {
-  animation: vote-button-hover;
+  animation: button-hover;
   animation-duration: 2s;
   transform: scale(1.12);
 }
 
-@keyframes vote-button-hover {
+@keyframes button-hover {
   0% {
     opacity: 0.4;
   }
@@ -73,18 +73,9 @@
 }
 
 .index-button:hover {
-  animation: index-button-hover;
+  animation: button-hover;
   animation-duration: 2s;
   transform: scale(1.12);
-}
-
-@keyframes index-button-hover {
-  0% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .inline-block {
@@ -102,12 +93,12 @@
 
 .vote-shrink {
   animation-name: animate-vote-change;
-  animation-duration: 175ms;
+  animation-duration: 180ms;
 }
 
 .vote-grow {
   animation-name: animate-vote-change;
-  animation-duration: 175ms;
+  animation-duration: 180ms;
   animation-direction: reverse;
 }
 

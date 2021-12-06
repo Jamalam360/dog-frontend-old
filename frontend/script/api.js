@@ -8,77 +8,26 @@ window.onload = function () {
   if (!getIndex()) {
     setIndex(0);
   }
-
-  if (getVoteValue() == 1) {
-    setVoteButtonActive("upvote", true);
-    setVoteButtonActive("downvote", false);
-  } else if (getVoteValue() == -1) {
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", true);
-  }
 };
 
-function setIndex(value) {
-  localStorage.setItem("index", value);
-}
+Array.prototype.insert = function (index, item) {
+  this.splice(index, 0, item);
+};
 
 function getIndex() {
   return parseInt(localStorage.getItem("index"));
 }
 
 function getVoteValue() {
-  return parseInt(localStorage.getItem("voteValue"));
+  return localStorage.getItem("voteValue" + getIndex());
+}
+
+function setIndex(value) {
+  localStorage.setItem("index", value);
 }
 
 function setVoteValue(value) {
-  localStorage.setItem("voteValue", value);
-}
-
-function addAnimation(elementName, animName, endCallback) {
-  const element = document.getElementById(elementName);
-  element.classList.add(animName);
-  element.addEventListener(
-    "animationend",
-    () => {
-      element.classList.remove(animName);
-      if (endCallback) {
-        endCallback();
-      }
-    },
-    { once: true }
-  );
-}
-
-function addFadeInOutAnimation(elementName, inName, outName, middleCallback) {
-  const element = document.getElementById(elementName);
-
-  element.classList.add(inName);
-  element.addEventListener(
-    "animationend",
-    () => {
-      element.classList.remove(inName);
-      element.classList.add(outName);
-      middleCallback(element);
-    },
-    { once: true }
-  );
-
-  element.addEventListener(
-    "animationend",
-    () => {
-      element.classList.remove(outName);
-    },
-    { once: true }
-  );
-}
-
-function setVoteButtonActive(elementName, active) {
-  const element = document.getElementById(elementName);
-  if (active) {
-    element.classList.add("vote-button-active");
-  } else {
-    element.classList.remove("vote-button-active");
-  }
+  localStorage.setItem("voteValue" + getIndex(), value);
 }
 
 function upVote() {
@@ -128,7 +77,7 @@ function downVote() {
 
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", true);
-  }else if (getVoteValue() == -1) {
+  } else if (getVoteValue() == -1) {
     fetch(apiBase + "/posts/" + getIndex() + "/up", { method: "GET" });
 
     addFadeInOutAnimation(
@@ -158,12 +107,6 @@ function back() {
 }
 
 async function nextImage() {
-  let resetVoteValue = false;
-
-  if (!document.getElementById("dog").src.includes("wikimedia")) {
-    resetVoteValue = true;
-  }
-
   const data = await (
     await fetch(apiBase + "/posts/" + getIndex(), { method: "GET" })
   ).json();
@@ -186,9 +129,16 @@ async function nextImage() {
     );
 
     imageInUse = nextImage;
-  });
 
-  if (resetVoteValue) {
-    setVoteValue(0);
-  }
+    if (getVoteValue() == 1) {
+      setVoteButtonActive("upvote", true);
+      setVoteButtonActive("downvote", false);
+    } else if (getVoteValue() == -1) {
+      setVoteButtonActive("upvote", false);
+      setVoteButtonActive("downvote", true);
+    } else {
+      setVoteButtonActive("upvote", false);
+      setVoteButtonActive("downvote", false);
+    }
+  });
 }
