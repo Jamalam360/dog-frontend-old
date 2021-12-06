@@ -25,7 +25,7 @@ const users = db.collection<User>("users");
 const appendTillIndex = (
   index: number,
   value: number,
-  arr: number[]
+  arr: number[],
 ): number[] => {
   if (arr.length < index) {
     let currentIndex = 0;
@@ -46,7 +46,7 @@ const appendTillIndex = (
 };
 
 export const getOrCreatePost = async (
-  index: number
+  index: number,
 ): Promise<Post | undefined> => {
   let post = await posts.findOne({ index: index });
 
@@ -64,7 +64,7 @@ export const getOrCreatePost = async (
 };
 
 export const getOrCreateUser = async (
-  ip: string
+  ip: string,
 ): Promise<User | undefined> => {
   if (await users.findOne({ address: ip })) {
     return await users.findOne({ address: ip });
@@ -81,7 +81,7 @@ export const getOrCreateUser = async (
 export const addVoteToUser = async (
   user: User,
   postIndex: number,
-  voteValue: number
+  voteValue: number,
 ) => {
   await users.updateOne(
     { _id: user._id },
@@ -89,13 +89,13 @@ export const addVoteToUser = async (
       $set: {
         votedOn: appendTillIndex(postIndex, voteValue, user.votedOn),
       },
-    }
+    },
   );
 };
 
 export const removeVoteFromUser = async (
   user: User,
-  postIndex: number
+  postIndex: number,
 ) => {
   user.votedOn[postIndex] = 0;
   await users.updateOne(
@@ -104,9 +104,9 @@ export const removeVoteFromUser = async (
       $set: {
         votedOn: user.votedOn,
       },
-    }
+    },
   );
-}
+};
 
 export const addVote = async (index: number): Promise<Post | undefined> => {
   const post = await getOrCreatePost(index);

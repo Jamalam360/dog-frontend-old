@@ -6,11 +6,19 @@ const PORT = 3601;
 
 const app = new Application();
 
-app.use(
-  oakCors({
-    origin: "dog.jamalam.tech localhost 127.0.0.1",
-  }),
-);
+if (!(Deno.build.os == "windows")) {
+  app.use(
+    oakCors({
+      origin: "dog.jamalam.tech",
+    }),
+  );
+} else {
+  app.use(
+    oakCors({
+      origin: "*",
+    }),
+  )
+}
 
 app.use(router.allowedMethods());
 app.use(router.routes());

@@ -1,13 +1,11 @@
-const apiBase = "http://138.68.171.167:3601";
-
 let imageInUse = "dog";
 
 window.onload = function () {
-  nextImage();
-
   if (!getIndex()) {
     setIndex(0);
   }
+
+  setImage(getIndex());
 };
 
 Array.prototype.insert = function (index, item) {
@@ -18,103 +16,83 @@ function getIndex() {
   return parseInt(localStorage.getItem("index"));
 }
 
-function getVoteValue() {
-  return localStorage.getItem("voteValue" + getIndex());
-}
-
 function setIndex(value) {
   localStorage.setItem("index", value);
 }
 
-function setVoteValue(value) {
-  localStorage.setItem("voteValue" + getIndex(), value);
-}
+async function upVote() {
+  const index = getIndex();
+  const currentValue = await getVote(index);
+  let data;
 
-function upVote() {
-  if (getVoteValue() != 1) {
-    fetch(apiBase + "/posts/" + getIndex() + "/up", { method: "GET" });
-
-    addFadeInOutAnimation(
-      "votes",
-      "vote-shrink",
-      "vote-grow",
-      (e) => (e.innerHTML = parseInt(e.innerHTML) + 1),
-    );
-
-    setVoteValue(1);
-
+  if (currentValue == 0) {
+    data = await addVote(index, 1);
     setVoteButtonActive("upvote", true);
     setVoteButtonActive("downvote", false);
-  } else if (getVoteValue() == 1) {
-    fetch(apiBase + "/posts/" + getIndex() + "/down", { method: "GET" });
-
-    addFadeInOutAnimation(
-      "votes",
-      "vote-shrink",
-      "vote-grow",
-      (e) => (e.innerHTML = parseInt(e.innerHTML) - 1),
-    );
-
-    setVoteValue(0);
-
+  } else if (currentValue == 1) {
+    data = await nullifyVote(index);
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", false);
+  } else if (currentValue == -1) {
+    await nullifyVote(index);
+    data = await addVote(index, 1);
+    setVoteButtonActive("upvote", true);
+    setVoteButtonActive("downvote", false);
   }
+
+  addFadeInOutAnimation(
+    "votes",
+    "vote-shrink",
+    "vote-grow",
+    (e) => (e.innerHTML = data.votes),
+  );
 }
 
-function downVote() {
-  if (getVoteValue() != -1) {
-    fetch(apiBase + "/posts/" + getIndex() + "/down", { method: "GET" });
+async function downVote() {
+  const index = getIndex();
+  const currentValue = await getVote(index);
+  let data;
 
-    addFadeInOutAnimation(
-      "votes",
-      "vote-shrink",
-      "vote-grow",
-      (e) => (e.innerHTML = parseInt(e.innerHTML) - 1),
-    );
-
-    setVoteValue(-1);
-
+  if (currentValue == 0) {
+    data = await addVote(index, -1);
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", true);
-  } else if (getVoteValue() == -1) {
-    fetch(apiBase + "/posts/" + getIndex() + "/up", { method: "GET" });
-
-    addFadeInOutAnimation(
-      "votes",
-      "vote-shrink",
-      "vote-grow",
-      (e) => (e.innerHTML = parseInt(e.innerHTML) + 1),
-    );
-
-    setVoteValue(0);
-
+  } else if (currentValue == -1) {
+    data = await nullifyVote(index);
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", false);
+  } else if (currentValue == 1) {
+    await nullifyVote(index);
+    data = await addVote(index, -1);
+    setVoteButtonActive("upvote", false);
+    setVoteButtonActive("downvote", true);
   }
+
+  addFadeInOutAnimation(
+    "votes",
+    "vote-shrink",
+    "vote-grow",
+    (e) => (e.innerHTML = data.votes),
+  );
 }
 
 function forward() {
   setIndex(getIndex() + 1);
-  nextImage();
+  setImage(getIndex());
 }
 
 function back() {
   if (getIndex() > 0) {
     setIndex(getIndex() - 1);
-    nextImage();
+    setImage(getIndex());
   }
 }
 
-async function nextImage() {
-  const data = await (
-    await fetch(apiBase + "/posts/" + getIndex(), { method: "GET" })
-  ).json();
-  const src = data.url;
-  const votes = data.votes;
+async function setImage(index) {
+  const data = await getPost(index);
   const nextImage = imageInUse == "dog" ? "dog-2" : "dog";
 
-  document.getElementById(nextImage).src = src;
+  document.getElementById(nextImage).src = data.url;
 
   addAnimation(imageInUse, "dog-img-fade-out", () => {
     document.getElementById(imageInUse).classList.add("hidden");
@@ -125,15 +103,15 @@ async function nextImage() {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = votes),
+      (e) => (e.innerHTML = data.votes),
     );
 
     imageInUse = nextImage;
 
-    if (getVoteValue() == 1) {
+    if (getVote(index) == 1) {
       setVoteButtonActive("upvote", true);
       setVoteButtonActive("downvote", false);
-    } else if (getVoteValue() == -1) {
+    } else if (getVote(index) == -1) {
       setVoteButtonActive("upvote", false);
       setVoteButtonActive("downvote", true);
     } else {

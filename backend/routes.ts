@@ -1,10 +1,10 @@
 import { Router } from "https://deno.land/x/oak@v9.0.1/mod.ts";
 import {
   addVote,
+  addVoteToUser,
   getOrCreatePost,
   getOrCreateUser,
   removeVote,
-  addVoteToUser,
   removeVoteFromUser,
 } from "./database.ts";
 
@@ -27,14 +27,6 @@ router.get("/ping/:name", (ctx) => {
 router.get("/posts/:index", async (ctx) => {
   const index = parseInt(ctx.params.index as string);
   const post = await getOrCreatePost(index);
-  const user = await getOrCreateUser(ctx.request.ip);
-  let value = 0;
-
-  if (user?.votedOn[index] == 1) {
-    value = 1;
-  } else if (user?.votedOn[index] == -1) {
-    value = -1;
-  }
 
   if (post) {
     ctx.response.body = {
@@ -42,7 +34,7 @@ router.get("/posts/:index", async (ctx) => {
       url: post.imageUrl,
       index: post.index,
       votes: post.votes,
-      value: value,
+      value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
     };
   } else {
     ctx.response.body = {
@@ -56,14 +48,6 @@ router.get("/posts/:index/removeVote", async (ctx) => {
   const user = await getOrCreateUser(ctx.request.ip);
   const index = parseInt(ctx.params.index as string);
 
-  let value = 0;
-
-  if (user?.votedOn[index] == 1) {
-    value = 1;
-  } else if (user?.votedOn[index] == -1) {
-    value = -1;
-  }
-
   if (user?.votedOn[index] == 1) {
     await removeVoteFromUser(user, index);
     const post = await removeVote(index);
@@ -74,7 +58,7 @@ router.get("/posts/:index/removeVote", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
-        value: 0,
+        value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
       };
     } else {
       ctx.response.body = {
@@ -83,6 +67,7 @@ router.get("/posts/:index/removeVote", async (ctx) => {
       };
     }
   } else if (user?.votedOn[index] == -1) {
+    await removeVoteFromUser(user, index);
     const post = await addVote(index);
 
     if (post) {
@@ -91,7 +76,7 @@ router.get("/posts/:index/removeVote", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
-        value: 0,
+        value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
       };
     } else {
       ctx.response.body = {
@@ -112,11 +97,7 @@ router.get("/posts/:index/up", async (ctx) => {
   const index = parseInt(ctx.params.index as string);
 
   if (user?.votedOn[index] == 0) {
-    if (user?.votedOn[index] == -1) {
-      await addVote(index);
-    }
-
-    await addVoteToUser(user!!, index, 1);
+    await addVoteToUser(user!, index, 1);
     const post = await addVote(index);
 
     if (post) {
@@ -125,7 +106,7 @@ router.get("/posts/:index/up", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
-        value: 1,
+        value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
       };
     } else {
       ctx.response.body = {
@@ -146,11 +127,7 @@ router.get("/posts/:index/down", async (ctx) => {
   const index = parseInt(ctx.params.index as string);
 
   if (user?.votedOn[index] == 0) {
-    if (user?.votedOn[index] == 1) {
-      await removeVote(index);
-    }
-
-    await addVoteToUser(user!!, index, -1);
+    await addVoteToUser(user!, index, -1);
     const post = await removeVote(index);
 
     if (post) {
@@ -159,7 +136,7 @@ router.get("/posts/:index/down", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
-        value: -1,
+        value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
       };
     } else {
       ctx.response.body = {
