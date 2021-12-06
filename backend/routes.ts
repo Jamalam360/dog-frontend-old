@@ -29,12 +29,18 @@ router.get("/posts/:index", async (ctx) => {
   const post = await getOrCreatePost(index);
 
   if (post) {
+    const user = await getOrCreateUser(ctx.request.ip);
+    let value = 0;
+    if (user?.votedOn[index]) {
+      value = user.votedOn[index];
+    }
+
     ctx.response.body = {
       status: "success",
       url: post.imageUrl,
       index: post.index,
       votes: post.votes,
-      value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
+      value: value,
     };
   } else {
     ctx.response.body = {

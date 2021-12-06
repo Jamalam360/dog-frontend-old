@@ -9,7 +9,7 @@ const app = new Application();
 if (!(Deno.build.os == "windows")) {
   app.use(
     oakCors({
-      origin: "htpp://dog.jamalam.tech",
+      origin: "http://dog.jamalam.tech",
     }),
   );
 } else {
