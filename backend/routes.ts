@@ -30,6 +30,11 @@ router.get("/posts/:index", async (ctx) => {
 
   if (post) {
     const user = await getOrCreateUser(ctx.request.ip);
+
+    if (!(user?.votedOn[index])) {
+      addVoteToUser(user!, index, 0);
+    }
+
     let value = 0;
     if (user?.votedOn[index]) {
       value = user.votedOn[index];
