@@ -108,10 +108,10 @@ async function setImage(index) {
 
     imageInUse = nextImage;
 
-    if (getVote(index) == 1) {
+    if (data.value == 1) {
       setVoteButtonActive("upvote", true);
       setVoteButtonActive("downvote", false);
-    } else if (getVote(index) == -1) {
+    } else if (data.value == -1) {
       setVoteButtonActive("upvote", false);
       setVoteButtonActive("downvote", true);
     } else {
