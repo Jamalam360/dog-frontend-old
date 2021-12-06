@@ -1,8 +1,8 @@
 import { Router } from "https://deno.land/x/oak@v9.0.1/mod.ts";
 import {
   addVote,
-  createPost,
-  getPostWithIndex,
+  getOrCreatePost,
+  getOrCreateUser,
   removeVote,
 } from "./database.ts";
 
@@ -23,10 +23,15 @@ router.get("/ping/:name", (ctx) => {
 });
 
 router.get("/posts/:index", async (ctx) => {
-  let post = await getPostWithIndex(parseInt(ctx.params.index as string));
+  const index = parseInt(ctx.params.index as string);
+  const post = await getOrCreatePost(index);
+  const user = await getOrCreateUser(ctx.request.ip);
+  let value = 0;
 
-  if (!post) {
-    post = await createPost(parseInt(ctx.params.index as string));
+  if (user?.votedOn[index] == 1) {
+    value = 1;
+  } else if (user?.votedOn[index] == -1) {
+    value = -1;
   }
 
   if (post) {
@@ -35,47 +40,120 @@ router.get("/posts/:index", async (ctx) => {
       url: post.imageUrl,
       index: post.index,
       votes: post.votes,
+      value: value,
     };
   } else {
     ctx.response.body = {
       status: "error",
       message: "Failed to get or create post",
+    };
+  }
+});
+
+router.get("/posts/:index/removeVote", async (ctx) => {
+  const user = await getOrCreateUser(ctx.request.ip);
+  const index = parseInt(ctx.params.index as string);
+
+  if (user?.votedOn[index] == 1) {
+    const post = await removeVote(index);
+
+    if (post) {
+      ctx.response.body = {
+        status: "success",
+        url: post.imageUrl,
+        index: post.index,
+        votes: post.votes,
+      };
+    } else {
+      ctx.response.body = {
+        status: "error",
+        message: "Failed to get or create post",
+      };
+    }
+  } else if (user?.votedOn[index] == -1) {
+    const post = await addVote(index);
+
+    if (post) {
+      ctx.response.body = {
+        status: "success",
+        url: post.imageUrl,
+        index: post.index,
+        votes: post.votes,
+      };
+    } else {
+      ctx.response.body = {
+        status: "error",
+        message: "Failed to get or create post",
+      };
+    }
+  } else {
+    ctx.response.body = {
+      status: "erorr",
+      message: "Failed to remove vote",
     };
   }
 });
 
 router.get("/posts/:index/up", async (ctx) => {
-  const post = await addVote(parseInt(ctx.params.index as string));
+  const user = await getOrCreateUser(ctx.request.ip);
+  const index = parseInt(ctx.params.index as string);
 
-  if (post) {
-    ctx.response.body = {
-      status: "success",
-      url: post.imageUrl,
-      index: post.index,
-      votes: post.votes,
-    };
+  if (user?.votedOn[index] == 0 || user?.votedOn[index] == -1) {
+    if (user?.votedOn[index] == -1) {
+      await addVote(index);
+    }
+
+    const post = await addVote(index);
+
+    if (post) {
+      ctx.response.body = {
+        status: "success",
+        url: post.imageUrl,
+        index: post.index,
+        votes: post.votes,
+      };
+    } else {
+      ctx.response.body = {
+        status: "error",
+        message: "Failed to get or create post",
+      };
+    }
   } else {
     ctx.response.body = {
-      status: "error",
-      message: "Failed to get or create post",
+      status: "erorr",
+      message: "User has already voted on this post",
     };
   }
 });
 
 router.get("/posts/:index/down", async (ctx) => {
-  const post = await removeVote(parseInt(ctx.params.index as string));
+  const user = await getOrCreateUser(ctx.request.ip);
+  const index = parseInt(ctx.params.index as string);
 
-  if (post) {
-    ctx.response.body = {
-      status: "success",
-      url: post.imageUrl,
-      index: post.index,
-      votes: post.votes,
-    };
+  if (user?.votedOn[index] == 0 || user?.votedOn[index] == 1) {
+    if (user?.votedOn[index] == 1) {
+      await removeVote(index);
+    }
+
+    const post = await removeVote(index);
+
+    if (post) {
+      ctx.response.body = {
+        status: "success",
+        url: post.imageUrl,
+        index: post.index,
+        votes: post.votes,
+      };
+    } else {
+      ctx.response.body = {
+        status: "error",
+        message: "Failed to get or create post",
+      };
+    }
   } else {
     ctx.response.body = {
-      status: "error",
-      message: "Failed to get or create post",
+      status: "erorr",
+      message: "User has already voted on this post",
     };
   }
 });

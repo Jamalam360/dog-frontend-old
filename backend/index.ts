@@ -8,15 +8,15 @@ const app = new Application();
 
 app.use(
   oakCors({
-    origin: "*",
-  })
-)
+    origin: "dog.jamalam.tech localhost 127.0.0.1",
+  }),
+);
 
 app.use(router.allowedMethods());
 app.use(router.routes());
 
 app.addEventListener("listen", () => {
-  console.log(`Listening on: localhost:${PORT}`);
+  console.log(`Listening on port ${PORT}`);
 });
 
 await app.listen({ port: PORT });

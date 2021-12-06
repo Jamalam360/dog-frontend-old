@@ -47,7 +47,7 @@
 }
 
 .vote-button-active {
-    filter: opacity(0.5) drop-shadow(0 0 0 orange);
+    filter: opacity(0.5) drop-shadow(0 0 0 yellow);
 }
 
 .vote-button:hover {

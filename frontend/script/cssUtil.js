@@ -9,7 +9,7 @@ function addAnimation(elementName, animName, endCallback) {
         endCallback();
       }
     },
-    { once: true }
+    { once: true },
   );
 }
 
@@ -24,7 +24,7 @@ function addFadeInOutAnimation(elementName, inName, outName, middleCallback) {
       element.classList.add(outName);
       middleCallback(element);
     },
-    { once: true }
+    { once: true },
   );
 
   element.addEventListener(
@@ -32,7 +32,7 @@ function addFadeInOutAnimation(elementName, inName, outName, middleCallback) {
     () => {
       element.classList.remove(outName);
     },
-    { once: true }
+    { once: true },
   );
 }
 

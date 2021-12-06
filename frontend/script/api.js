@@ -38,7 +38,7 @@ function upVote() {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = parseInt(e.innerHTML) + 1)
+      (e) => (e.innerHTML = parseInt(e.innerHTML) + 1),
     );
 
     setVoteValue(1);
@@ -52,7 +52,7 @@ function upVote() {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = parseInt(e.innerHTML) - 1)
+      (e) => (e.innerHTML = parseInt(e.innerHTML) - 1),
     );
 
     setVoteValue(0);
@@ -70,7 +70,7 @@ function downVote() {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = parseInt(e.innerHTML) - 1)
+      (e) => (e.innerHTML = parseInt(e.innerHTML) - 1),
     );
 
     setVoteValue(-1);
@@ -84,7 +84,7 @@ function downVote() {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = parseInt(e.innerHTML) + 1)
+      (e) => (e.innerHTML = parseInt(e.innerHTML) + 1),
     );
 
     setVoteValue(0);
@@ -96,13 +96,13 @@ function downVote() {
 
 function forward() {
   setIndex(getIndex() + 1);
-  setTimeout(() => nextImage(), 450);
+  nextImage();
 }
 
 function back() {
   if (getIndex() > 0) {
     setIndex(getIndex() - 1);
-    setTimeout(() => nextImage(), 450);
+    nextImage();
   }
 }
 
@@ -125,7 +125,7 @@ async function nextImage() {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = votes)
+      (e) => (e.innerHTML = votes),
     );
 
     imageInUse = nextImage;

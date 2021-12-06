@@ -12,27 +12,51 @@ interface Post {
   index: number;
 }
 
+interface User {
+  _id: Bson.ObjectId;
+  address: string;
+  votedOn: number[];
+}
+
 const db = client.database("dog_image_website_db");
 const posts = db.collection<Post>("posts");
+const users = db.collection<User>("users");
 
-export const getPostWithIndex = async (
+export const getOrCreatePost = async (
   index: number,
 ): Promise<Post | undefined> => {
-  return await posts.findOne({ index: index });
+  let post = await posts.findOne({ index: index });
+
+  if (!post) {
+    const id = await posts.insertOne({
+      votes: 0,
+      imageUrl: await getRandomDogImage(),
+      index: index,
+    });
+
+    post = await posts.findOne({ _id: id });
+  }
+
+  return post;
 };
 
-export const createPost = async (index: number): Promise<Post | undefined> => {
-  const id = await posts.insertOne({
-    votes: 0,
-    imageUrl: await getRandomDogImage(),
-    index: index,
-  });
+export const getOrCreateUser = async (
+  ip: string,
+): Promise<User | undefined> => {
+  if (await users.findOne({ address: ip })) {
+    return await users.findOne({ address: ip });
+  } else {
+    const id = await users.insertOne({
+      address: ip,
+      votedOn: [],
+    });
 
-  return await posts.findOne({ _id: id });
+    return await users.findOne({ _id: id });
+  }
 };
 
 export const addVote = async (index: number): Promise<Post | undefined> => {
-  const post = await getPostWithIndex(index);
+  const post = await getOrCreatePost(index);
 
   if (post) {
     await posts.updateOne(
@@ -41,11 +65,11 @@ export const addVote = async (index: number): Promise<Post | undefined> => {
     );
   }
 
-  return await getPostWithIndex(index);
+  return await getOrCreatePost(index);
 };
 
 export const removeVote = async (index: number): Promise<Post | undefined> => {
-  const post = await getPostWithIndex(index);
+  const post = await getOrCreatePost(index);
 
   if (post) {
     await posts.updateOne(
@@ -54,5 +78,5 @@ export const removeVote = async (index: number): Promise<Post | undefined> => {
     );
   }
 
-  return await getPostWithIndex(index);
+  return await getOrCreatePost(index);
 };
