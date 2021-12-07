@@ -35,20 +35,20 @@ function setSnowflake(snowflake) {
 
 async function upVote() {
   const index = getIndex();
-  const currentValue = await getVote(index);
+  const currentValue = await getVote(index, snowflake);
   let data;
 
   if (currentValue == 0) {
-    data = await addVote(index, 1);
+    data = await addVote(index, 1, snowflake);
     setVoteButtonActive("upvote", true);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
-    data = await nullifyVote(index);
+    data = await nullifyVote(index, snowflake);
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == -1) {
-    await nullifyVote(index);
-    data = await addVote(index, 1);
+    await nullifyVote(index, snowflake);
+    data = await addVote(index, 1, snowflake);
     setVoteButtonActive("upvote", true);
     setVoteButtonActive("downvote", false);
   }
@@ -63,20 +63,20 @@ async function upVote() {
 
 async function downVote() {
   const index = getIndex();
-  const currentValue = await getVote(index);
+  const currentValue = await getVote(index, snowflake);
   let data;
 
   if (currentValue == 0) {
-    data = await addVote(index, -1);
+    data = await addVote(index, -1, snowflake);
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", true);
   } else if (currentValue == -1) {
-    data = await nullifyVote(index);
+    data = await nullifyVote(index, snowflake);
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
-    await nullifyVote(index);
-    data = await addVote(index, -1);
+    await nullifyVote(index, snowflake);
+    data = await addVote(index, -1, snowflake);
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", true);
   }
@@ -102,7 +102,7 @@ function back() {
 }
 
 async function setImage(index) {
-  const data = await getPost(index);
+  const data = await getPost(index, snowflake);
   const nextImage = imageInUse == "dog" ? "dog-2" : "dog";
 
   document.getElementById(nextImage).src = data.url;
