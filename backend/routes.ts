@@ -86,7 +86,7 @@ router.get("/posts/:index/removeVote/:id", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
-        value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
+        value: (await getOrCreateUser(ctx.params.id as string))?.votedOn[index],
       };
     } else {
       ctx.response.body = {
@@ -104,7 +104,7 @@ router.get("/posts/:index/removeVote/:id", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
-        value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
+        value: (await getOrCreateUser(ctx.params.id as string))?.votedOn[index],
       };
     } else {
       ctx.response.body = {
@@ -134,7 +134,7 @@ router.get("/posts/:index/up/:id", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
-        value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
+        value: (await getOrCreateUser(ctx.params.id as string))?.votedOn[index],
       };
     } else {
       ctx.response.body = {
@@ -164,7 +164,7 @@ router.get("/posts/:index/down/:id", async (ctx) => {
         url: post.imageUrl,
         index: post.index,
         votes: post.votes,
-        value: (await getOrCreateUser(ctx.request.ip))?.votedOn[index],
+        value: (await getOrCreateUser(ctx.params.id as string))?.votedOn[index],
       };
     } else {
       ctx.response.body = {
