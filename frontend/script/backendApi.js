@@ -1,4 +1,5 @@
-const apiBase = "http://138.68.171.167:3601";
+//const apiBase = "https://138.68.171.167:3601";
+const apiBase = "https://dog.jamalam.tech:3601";
 //const apiBase = "http://localhost:3601";
 
 async function getPost(index) {
