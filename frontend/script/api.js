@@ -6,7 +6,7 @@ window.onload = async function () {
   }
 
   if (getSnowflake() == null) {
-    const snowflake = await getSnowflake();
+    const snowflake = await genSnowflake();
     setSnowflake(snowflake);
   }
 

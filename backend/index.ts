@@ -6,7 +6,7 @@ const PORT = 3601;
 
 const app = new Application();
 
-if (true) {
+if (false) {
   app.use(
     oakCors({
       origin: "http://dog.jamalam.tech",
