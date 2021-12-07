@@ -5,6 +5,10 @@ window.onload = function () {
     setIndex(0);
   }
 
+  if (!getSnowflake()) {
+    setSnowflake(genSnowflake());
+  }
+
   setImage(getIndex());
 };
 
@@ -18,6 +22,14 @@ function getIndex() {
 
 function setIndex(value) {
   localStorage.setItem("index", value);
+}
+
+function getSnowflake() {
+  localStorage.getItem("snowflake");
+}
+
+function setSnowflake(snowflake) {
+  localStorage.setItem("snowflake", snowflake);
 }
 
 async function upVote() {

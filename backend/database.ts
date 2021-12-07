@@ -1,7 +1,9 @@
 import { Bson, MongoClient } from "https://deno.land/x/mongo@v0.28.1/mod.ts";
 import { getRandomDogImage } from "./dogApi.ts";
+import Snowflake from "https://deno.land/x/snowflake@v1/mod.ts"
 
 const client = new MongoClient();
+const snowflake: Snowflake = new Snowflake();
 
 await client.connect("mongodb://127.0.0.1:27017");
 
@@ -14,7 +16,7 @@ interface Post {
 
 interface User {
   _id: Bson.ObjectId;
-  address: string;
+  snowflake: string;
   votedOn: number[];
 }
 
@@ -45,6 +47,15 @@ const appendTillIndex = (
   return arr;
 };
 
+export const createUser = async(): Promise<User | undefined> => {
+  const user = await users.insertOne({
+    snowflake: snowflake.toBase64(await snowflake.generate()),
+    votedOn: [],
+  });
+
+  return await users.findOne({ _id: user });
+}
+
 export const getOrCreatePost = async (
   index: number,
 ): Promise<Post | undefined> => {
@@ -64,13 +75,13 @@ export const getOrCreatePost = async (
 };
 
 export const getOrCreateUser = async (
-  ip: string,
+  userSnowflake: string
 ): Promise<User | undefined> => {
-  if (await users.findOne({ address: ip })) {
-    return await users.findOne({ address: ip });
+  if (await users.findOne({ address: userSnowflake })) {
+    return await users.findOne({ address: userSnowflake });
   } else {
     const id = await users.insertOne({
-      address: ip,
+      snowflake: snowflake.toBase64(await snowflake.generate()),
       votedOn: [],
     });
 

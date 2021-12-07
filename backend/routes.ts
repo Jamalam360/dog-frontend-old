@@ -6,6 +6,7 @@ import {
   getOrCreateUser,
   removeVote,
   removeVoteFromUser,
+  createUser
 } from "./database.ts";
 
 export const router = new Router();
@@ -24,12 +25,28 @@ router.get("/ping/:name", (ctx) => {
   };
 });
 
-router.get("/posts/:index", async (ctx) => {
+router.get("/user/new", async(ctx) => {
+  const user = await createUser();
+
+  if (user) {
+    ctx.response.body = {
+      status: "success",
+      snowflake: user.snowflake,
+    };
+  } else {
+    ctx.response.body = {
+      status: "error",
+      message: "Failed to get or create user",
+    };
+  }
+});
+
+router.get("/posts/:index/:id", async (ctx) => {
   const index = parseInt(ctx.params.index as string);
   const post = await getOrCreatePost(index);
 
   if (post) {
-    const user = await getOrCreateUser(ctx.request.ip);
+    const user = await getOrCreateUser(ctx.params.id as string);
 
     if (!(user?.votedOn[index])) {
       addVoteToUser(user!, index, 0);
@@ -55,8 +72,8 @@ router.get("/posts/:index", async (ctx) => {
   }
 });
 
-router.get("/posts/:index/removeVote", async (ctx) => {
-  const user = await getOrCreateUser(ctx.request.ip);
+router.get("/posts/:index/removeVote/:id", async (ctx) => {
+  const user = await getOrCreateUser(ctx.params.id as string);
   const index = parseInt(ctx.params.index as string);
 
   if (user?.votedOn[index] == 1) {
@@ -103,8 +120,8 @@ router.get("/posts/:index/removeVote", async (ctx) => {
   }
 });
 
-router.get("/posts/:index/up", async (ctx) => {
-  const user = await getOrCreateUser(ctx.request.ip);
+router.get("/posts/:index/up/:id", async (ctx) => {
+  const user = await getOrCreateUser(ctx.params.id as string);
   const index = parseInt(ctx.params.index as string);
 
   if (user?.votedOn[index] == 0) {
@@ -133,8 +150,8 @@ router.get("/posts/:index/up", async (ctx) => {
   }
 });
 
-router.get("/posts/:index/down", async (ctx) => {
-  const user = await getOrCreateUser(ctx.request.ip);
+router.get("/posts/:index/down/:id", async (ctx) => {
+  const user = await getOrCreateUser(ctx.params.id as string);
   const index = parseInt(ctx.params.index as string);
 
   if (user?.votedOn[index] == 0) {
