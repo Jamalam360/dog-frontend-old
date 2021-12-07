@@ -1,5 +1,5 @@
-//const apiBase = "http://138.68.171.167:3601";
-const apiBase = "http://localhost:3601";
+const apiBase = "http://138.68.171.167:3601";
+//const apiBase = "http://localhost:3601";
 
 async function genSnowflake() {
   const req = await fetch(apiBase + "/user/new")
