@@ -1,6 +1,6 @@
 import { Bson, MongoClient } from "https://deno.land/x/mongo@v0.28.1/mod.ts";
 import { getRandomDogImage } from "./dogApi.ts";
-import Snowflake from "https://deno.land/x/snowflake@v1/mod.ts"
+import Snowflake from "https://deno.land/x/snowflake@v1/mod.ts";
 
 const client = new MongoClient();
 const snowflake: Snowflake = new Snowflake();
@@ -47,14 +47,14 @@ const appendTillIndex = (
   return arr;
 };
 
-export const createUser = async(): Promise<User | undefined> => {
+export const createUser = async (): Promise<User | undefined> => {
   const user = await users.insertOne({
     snowflake: snowflake.toBase64(await snowflake.generate()),
     votedOn: [],
   });
 
   return await users.findOne({ _id: user });
-}
+};
 
 export const getOrCreatePost = async (
   index: number,
@@ -75,7 +75,7 @@ export const getOrCreatePost = async (
 };
 
 export const getOrCreateUser = async (
-  userSnowflake: string
+  userSnowflake: string,
 ): Promise<User | undefined> => {
   if (await users.findOne({ snowflake: userSnowflake })) {
     return await users.findOne({ snowflake: userSnowflake });

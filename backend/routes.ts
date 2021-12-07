@@ -2,11 +2,11 @@ import { Router } from "https://deno.land/x/oak@v9.0.1/mod.ts";
 import {
   addVote,
   addVoteToUser,
+  createUser,
   getOrCreatePost,
   getOrCreateUser,
   removeVote,
   removeVoteFromUser,
-  createUser
 } from "./database.ts";
 
 export const router = new Router();
@@ -25,7 +25,7 @@ router.get("/ping/:name", (ctx) => {
   };
 });
 
-router.get("/user/new", async(ctx) => {
+router.get("/user/new", async (ctx) => {
   const user = await createUser();
 
   if (user) {
