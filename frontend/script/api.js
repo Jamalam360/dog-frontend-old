@@ -6,7 +6,7 @@ window.onload = function () {
   }
 
   if (getSnowflake() == null) {
-    setSnowflake(genSnowflake());
+    setSnowflake(await genSnowflake());
   }
 
   setImage(getIndex());
