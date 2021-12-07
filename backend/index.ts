@@ -9,7 +9,7 @@ const app = new Application();
 if (true) {
   app.use(
     oakCors({
-      origin: "http://dog.jamalam.tech",
+      origin: "https://dog.jamalam.tech",
     }),
   );
 } else {
