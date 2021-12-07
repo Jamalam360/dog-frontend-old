@@ -35,20 +35,20 @@ function setSnowflake(snowflake) {
 
 async function upVote() {
   const index = getIndex();
-  const currentValue = await getVote(index, snowflake);
+  const currentValue = await getVote(index, getSnowflake());
   let data;
 
   if (currentValue == 0) {
-    data = await addVote(index, 1, snowflake);
+    data = await addVote(index, 1, getSnowflake());
     setVoteButtonActive("upvote", true);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
-    data = await nullifyVote(index, snowflake);
+    data = await nullifyVote(index, getSnowflake());
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == -1) {
-    await nullifyVote(index, snowflake);
-    data = await addVote(index, 1, snowflake);
+    await nullifyVote(index, getSnowflake());
+    data = await addVote(index, 1, getSnowflake());
     setVoteButtonActive("upvote", true);
     setVoteButtonActive("downvote", false);
   }
@@ -63,20 +63,20 @@ async function upVote() {
 
 async function downVote() {
   const index = getIndex();
-  const currentValue = await getVote(index, snowflake);
+  const currentValue = await getVote(index, getSnowflake());
   let data;
 
   if (currentValue == 0) {
-    data = await addVote(index, -1, snowflake);
+    data = await addVote(index, -1, getSnowflake());
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", true);
   } else if (currentValue == -1) {
-    data = await nullifyVote(index, snowflake);
+    data = await nullifyVote(index, getSnowflake());
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
-    await nullifyVote(index, snowflake);
-    data = await addVote(index, -1, snowflake);
+    await nullifyVote(index, getSnowflake());
+    data = await addVote(index, -1, getSnowflake());
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", true);
   }
@@ -102,7 +102,7 @@ function back() {
 }
 
 async function setImage(index) {
-  const data = await getPost(index, snowflake);
+  const data = await getPost(index, getSnowflake());
   const nextImage = imageInUse == "dog" ? "dog-2" : "dog";
 
   document.getElementById(nextImage).src = data.url;
