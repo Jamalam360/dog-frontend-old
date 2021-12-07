@@ -9,7 +9,7 @@ const app = new Application();
 if (true) {
   app.use(
     oakCors({
-      origin: "https://dog.jamalam.tech",
+      origin: "http://dog.jamalam.tech",
     }),
   );
 } else {
@@ -17,7 +17,7 @@ if (true) {
     oakCors({
       origin: "*",
     }),
-  );
+  )
 }
 
 app.use(router.allowedMethods());
@@ -27,6 +27,9 @@ app.addEventListener("listen", () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-await app.listen({
+await app.listen({ 
   port: PORT,
+  secure: true,
+  certFile: "/etc/letsencrypt/live/dog.jamalam.tech/fullchain.pem",
+  keyFile: "/etc/letsencrypt/live/dog.jamalam.tech/privkey.pem",
 });
