@@ -5,7 +5,7 @@ window.onload = function () {
     setIndex(0);
   }
 
-  if (!getSnowflake()) {
+  if (getSnowflake() == null) {
     setSnowflake(genSnowflake());
   }
 
