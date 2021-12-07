@@ -1,8 +1,13 @@
 let imageInUse = "dog";
 
-window.onload = function () {
+window.onload = async function () {
   if (!getIndex()) {
     setIndex(0);
+  }
+
+  if (getSnowflake() == null) {
+    const snowflake = await genSnowflake();
+    setSnowflake(snowflake);
   }
 
   setImage(getIndex());
@@ -13,29 +18,37 @@ Array.prototype.insert = function (index, item) {
 };
 
 function getIndex() {
-  return parseInt(localStorage.getItem("index"));
+  return parseInt(localStorage.index);
 }
 
 function setIndex(value) {
   localStorage.setItem("index", value);
 }
 
+function getSnowflake() {
+  return localStorage.snowflake;
+}
+
+function setSnowflake(snowflake) {
+  localStorage.setItem("snowflake", snowflake);
+}
+
 async function upVote() {
   const index = getIndex();
-  const currentValue = await getVote(index);
+  const currentValue = await getVote(index, getSnowflake());
   let data;
 
   if (currentValue == 0) {
-    data = await addVote(index, 1);
+    data = await addVote(index, 1, getSnowflake());
     setVoteButtonActive("upvote", true);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
-    data = await nullifyVote(index);
+    data = await nullifyVote(index, getSnowflake());
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == -1) {
-    await nullifyVote(index);
-    data = await addVote(index, 1);
+    await nullifyVote(index, getSnowflake());
+    data = await addVote(index, 1, getSnowflake());
     setVoteButtonActive("upvote", true);
     setVoteButtonActive("downvote", false);
   }
@@ -50,20 +63,20 @@ async function upVote() {
 
 async function downVote() {
   const index = getIndex();
-  const currentValue = await getVote(index);
+  const currentValue = await getVote(index, getSnowflake());
   let data;
 
   if (currentValue == 0) {
-    data = await addVote(index, -1);
+    data = await addVote(index, -1, getSnowflake());
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", true);
   } else if (currentValue == -1) {
-    data = await nullifyVote(index);
+    data = await nullifyVote(index, getSnowflake());
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
-    await nullifyVote(index);
-    data = await addVote(index, -1);
+    await nullifyVote(index, getSnowflake());
+    data = await addVote(index, -1, getSnowflake());
     setVoteButtonActive("upvote", false);
     setVoteButtonActive("downvote", true);
   }
@@ -89,7 +102,7 @@ function back() {
 }
 
 async function setImage(index) {
-  const data = await getPost(index);
+  const data = await getPost(index, getSnowflake());
   const nextImage = imageInUse == "dog" ? "dog-2" : "dog";
 
   document.getElementById(nextImage).src = data.url;
