@@ -29,7 +29,4 @@ app.addEventListener("listen", () => {
 
 await app.listen({
   port: PORT,
-  secure: true,
-  certFile: "./certs/cert.crt",
-  keyFile: "./certs/key.key",
 });
