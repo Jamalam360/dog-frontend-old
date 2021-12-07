@@ -1,6 +1,6 @@
 let imageInUse = "dog";
 
-window.onload = function () {
+window.onload = async function () {
   if (!getIndex()) {
     setIndex(0);
   }
