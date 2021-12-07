@@ -26,7 +26,7 @@ function setIndex(value) {
 }
 
 function getSnowflake() {
-  localStorage.snowflake;
+  return localStorage.snowflake;
 }
 
 function setSnowflake(snowflake) {
