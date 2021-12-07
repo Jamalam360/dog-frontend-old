@@ -18,7 +18,7 @@ Array.prototype.insert = function (index, item) {
 };
 
 function getIndex() {
-  return parseInt(localStorage.getItem("index"));
+  return parseInt(localStorage.index);
 }
 
 function setIndex(value) {
@@ -26,7 +26,7 @@ function setIndex(value) {
 }
 
 function getSnowflake() {
-  localStorage.getItem("snowflake");
+  localStorage.snowflake;
 }
 
 function setSnowflake(snowflake) {
