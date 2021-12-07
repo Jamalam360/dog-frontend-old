@@ -6,7 +6,8 @@ window.onload = function () {
   }
 
   if (getSnowflake() == null) {
-    setSnowflake(await genSnowflake());
+    const snowflake = await getSnowflake();
+    setSnowflake(snowflake);
   }
 
   setImage(getIndex());
