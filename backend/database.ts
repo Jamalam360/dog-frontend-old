@@ -77,8 +77,8 @@ export const getOrCreatePost = async (
 export const getOrCreateUser = async (
   userSnowflake: string
 ): Promise<User | undefined> => {
-  if (await users.findOne({ address: userSnowflake })) {
-    return await users.findOne({ address: userSnowflake });
+  if (await users.findOne({ snowflake: userSnowflake })) {
+    return await users.findOne({ snowflake: userSnowflake });
   } else {
     return await createUser();
   }
