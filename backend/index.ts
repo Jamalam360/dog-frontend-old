@@ -30,6 +30,6 @@ app.addEventListener("listen", () => {
 await app.listen({ 
   port: PORT,
   secure: true,
-  certFile: "/root/certs/fullchain.pem",
-  keyFile: "/root/certs/privkey.pem",
+  certFile: "/etc/letsencrypt/live/dog.jamalam.tech/fullchain.pem",
+  keyFile: "/etc/letsencrypt/live/dog.jamalam.tech/privkey.pem",
 });
