@@ -1,6 +1,6 @@
-//const apiBase = "https://138.68.171.167:3601";
-const apiBase = "https://dog.jamalam.tech:3601";
-//const apiBase = "http://localhost:3601";
+//const apiBase = "https://138.68.171.167:8002";
+const apiBase = "https://dog.jamalam.tech:8002";
+//const apiBase = "http://localhost:8002";
 
 async function genSnowflake() {
   const req = await fetch(apiBase + "/user/new");
