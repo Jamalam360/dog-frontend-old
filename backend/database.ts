@@ -80,12 +80,7 @@ export const getOrCreateUser = async (
   if (await users.findOne({ address: userSnowflake })) {
     return await users.findOne({ address: userSnowflake });
   } else {
-    const id = await users.insertOne({
-      snowflake: snowflake.toBase64(await snowflake.generate()),
-      votedOn: [],
-    });
-
-    return await users.findOne({ _id: id });
+    return await createUser();
   }
 };
 
