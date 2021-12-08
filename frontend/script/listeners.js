@@ -56,8 +56,8 @@ body.addEventListener(
 );
 
 function handleGesture() {
-  let horizontalDifference = start.screenX - end.screenX;
-  let verticalDifference = start.screenY - end.screenY;
+  let horizontalDifference = touchStartX - touchEndX;
+  let verticalDifference = touchStartY - touchEndY;
 
   if (Math.abs(horizontalDifference) > Math.abs(verticalDifference)) {
     tapped = false;
