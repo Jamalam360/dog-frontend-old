@@ -62,9 +62,17 @@ export const getOrCreatePost = async (
   let post = await posts.findOne({ index: index });
 
   if (!post) {
+    let imageUrl = await getRandomDogImage();
+    let foundPost = await posts.findOne({ imageUrl: imageUrl });
+
+    while (foundPost) {
+      imageUrl = await getRandomDogImage();
+      foundPost = await posts.findOne({ imageUrl: imageUrl });
+    }
+
     const id = await posts.insertOne({
       votes: 0,
-      imageUrl: await getRandomDogImage(),
+      imageUrl: imageUrl,
       index: index,
     });
 
