@@ -54,8 +54,10 @@ async function share() {
   textArea.select();
   try {
     document.execCommand("copy");
+    alert("Copied to clipboard");
   } catch (ex) {
     console.warn("Copy to clipboard failed.", ex);
+    alert("Failed to copy to clipboard");
   } finally {
     document.body.removeChild(textArea);
   }
