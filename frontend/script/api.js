@@ -47,7 +47,18 @@ function setSnowflake(snowflake) {
 }
 
 async function share() {
-  await navigator.clipboard.writeText("http://dog.jamalam.tech/?index=" + getIndex());
+  var textArea = document.createElement("textarea");
+  textArea.textContent = "http://dog.jamalam.tech/?index=" + getIndex();
+  textArea.style.position = "fixed";
+  document.body.appendChild(textArea);
+  textArea.select();
+  try {
+    document.execCommand("copy");
+  } catch (ex) {
+    console.warn("Copy to clipboard failed.", ex);
+  } finally {
+    document.body.removeChild(textArea);
+  }
 }
 
 async function toggleVote() {
