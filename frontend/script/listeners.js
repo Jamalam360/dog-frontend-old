@@ -32,7 +32,7 @@ window.addEventListener(
 
     event.preventDefault();
   },
-  true
+  true,
 );
 
 body.addEventListener(
@@ -41,7 +41,7 @@ body.addEventListener(
     touchStartX = event.changedTouches[0].screenX;
     touchStartY = event.changedTouches[0].screenY;
   },
-  false
+  false,
 );
 
 body.addEventListener(
@@ -51,7 +51,7 @@ body.addEventListener(
     touchEndY = event.changedTouches[0].screenY;
     handleGesture();
   },
-  false
+  false,
 );
 
 function handleGesture() {

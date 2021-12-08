@@ -1,8 +1,21 @@
 let imageInUse = "dog";
 
 window.onload = async function () {
-  if (!getIndex()) {
-    setIndex(0);
+  // Handle query parameters
+  var params = window.location.search.substr(1).split("&");
+  var arr = params[0].split("=");
+  var requestedIndex = null;
+
+  if (arr[0] == "index") {
+    requestedIndex = params[0].split("=")[1];
+  }
+
+  if (requestedIndex) {
+    setIndex(requestedIndex);
+  } else {
+    if (!getIndex()) {
+      setIndex(0);
+    }
   }
 
   if (getSnowflake() == null) {
@@ -33,6 +46,16 @@ function setSnowflake(snowflake) {
   localStorage.setItem("snowflake", snowflake);
 }
 
+async function share() {
+  const share = {
+    title: "Doggo",
+    text: "Share this post!",
+    url: "http://dog.jamalam.tech/?index=" + getIndex(),
+  };
+
+  await navigator.share(share);
+}
+
 async function toggleVote() {
   const index = getIndex();
   const currentValue = await getVote(index, getSnowflake());
@@ -59,7 +82,7 @@ async function toggleVote() {
     "votes",
     "vote-shrink",
     "vote-grow",
-    (e) => (e.innerHTML = data.votes),
+    (e) => (e.innerHTML = data.votes)
   );
 }
 
@@ -87,7 +110,7 @@ async function upVote() {
     "votes",
     "vote-shrink",
     "vote-grow",
-    (e) => (e.innerHTML = data.votes),
+    (e) => (e.innerHTML = data.votes)
   );
 }
 
@@ -115,7 +138,7 @@ async function downVote() {
     "votes",
     "vote-shrink",
     "vote-grow",
-    (e) => (e.innerHTML = data.votes),
+    (e) => (e.innerHTML = data.votes)
   );
 }
 
@@ -146,7 +169,7 @@ async function setImage(index) {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = data.votes),
+      (e) => (e.innerHTML = data.votes)
     );
 
     imageInUse = nextImage;
