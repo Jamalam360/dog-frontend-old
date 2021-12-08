@@ -33,6 +33,36 @@ function setSnowflake(snowflake) {
   localStorage.setItem("snowflake", snowflake);
 }
 
+async function toggleVote() {
+  const index = getIndex();
+  const currentValue = await getVote(index, getSnowflake());
+
+  let data;
+
+  if (currentValue == 0) {
+    data = await addVote(index, 1, getSnowflake());
+    setVoteButtonActive("upvote", true);
+    setVoteButtonActive("downvote", false);
+  } else if (currentValue == 1) {
+    await nullifyVote(index, getSnowflake());
+    data = await addVote(index, -1, getSnowflake());
+    setVoteButtonActive("upvote", false);
+    setVoteButtonActive("downvote", true);
+  } else if (currentValue == -1) {
+    await nullifyVote(index, getSnowflake());
+    data = await addVote(index, 1, getSnowflake());
+    setVoteButtonActive("upvote", true);
+    setVoteButtonActive("downvote", false);
+  }
+
+  addFadeInOutAnimation(
+    "votes",
+    "vote-shrink",
+    "vote-grow",
+    (e) => (e.innerHTML = data.votes),
+  );
+}
+
 async function upVote() {
   const index = getIndex();
   const currentValue = await getVote(index, getSnowflake());

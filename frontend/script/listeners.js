@@ -4,6 +4,7 @@ let touchStartX = 0;
 let touchEndX = 0;
 let touchStartY = 0;
 let touchEndY = 0;
+let tapped = false;
 
 window.addEventListener(
   "keydown",
@@ -48,22 +49,20 @@ body.addEventListener('touchend', function (event) {
 
 function handleGesture() {
     if (touchEndX < touchStartX) {
-        console.log('Swiped Left');
+        forward();
     }
 
     if (touchEndX > touchStartX) {
-        console.log('Swiped Right');
-    }
-
-    if (touchEndY < touchStartY) {
-        console.log('Swiped Up');
-    }
-
-    if (touchEndY > touchStartY) {
-        console.log('Swiped Down');
+        back();
     }
 
     if (touchEndY === touchStartY) {
-        console.log('Tap');
+        tapped = true;
+    } else {
+        tapped = false;
+    }
+
+    if (tapped) {
+        toggleVote();
     }
 }
