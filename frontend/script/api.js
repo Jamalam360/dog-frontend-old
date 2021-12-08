@@ -47,13 +47,7 @@ function setSnowflake(snowflake) {
 }
 
 async function share() {
-  const share = {
-    title: "Doggo",
-    text: "Share this post!",
-    url: "http://dog.jamalam.tech/?index=" + getIndex(),
-  };
-
-  await navigator.share(share);
+  await navigator.clipboard.writeText("http://dog.jamalam.tech/?index=" + getIndex());
 }
 
 async function toggleVote() {
