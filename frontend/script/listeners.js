@@ -5,7 +5,6 @@ let touchStartX = 0;
 let touchEndX = 0;
 let touchStartY = 0;
 let touchEndY = 0;
-let tapped = false;
 
 window.addEventListener(
   "keydown",
@@ -60,20 +59,10 @@ function handleGesture() {
   let verticalDifference = touchStartY - touchEndY;
 
   if (Math.abs(horizontalDifference) > Math.abs(verticalDifference)) {
-    tapped = false;
-
     if (horizontalDifference >= threshold) {
       forward();
     } else if (horizontalDifference <= -threshold) {
       back();
     }
-  } else if (Math.abs(verticalDifference) > Math.abs(horizontalDifference)) {
-    tapped = false;
-  } else {
-    tapped = true;
-  }
-
-  if (tapped) {
-      toggleVote();
   }
 }
