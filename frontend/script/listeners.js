@@ -1,4 +1,5 @@
 const body = document.getElementById("body");
+const threshold = 50;
 
 let touchStartX = 0;
 let touchEndX = 0;
@@ -35,34 +36,44 @@ window.addEventListener(
   true
 );
 
-body.addEventListener('touchstart', function (event) {
+body.addEventListener(
+  "touchstart",
+  function (event) {
     touchStartX = event.changedTouches[0].screenX;
     touchStartY = event.changedTouches[0].screenY;
-}, false);
+  },
+  false
+);
 
-body.addEventListener('touchend', function (event) {
+body.addEventListener(
+  "touchend",
+  function (event) {
     touchEndX = event.changedTouches[0].screenX;
     touchEndY = event.changedTouches[0].screenY;
     handleGesture();
-}, false);
-
+  },
+  false
+);
 
 function handleGesture() {
-    if (touchEndX < touchStartX) {
-        forward();
-    }
+  let horizontalDifference = start.screenX - end.screenX;
+  let verticalDifference = start.screenY - end.screenY;
 
-    if (touchEndX > touchStartX) {
-        back();
-    }
+  if (Math.abs(horizontalDifference) > Math.abs(verticalDifference)) {
+    tapped = false;
 
-    if (touchEndY === touchStartY) {
-        tapped = true;
-    } else {
-        tapped = false;
+    if (horizontalDifference >= threshold) {
+      forward();
+    } else if (horizontalDifference <= -threshold) {
+      back();
     }
+  } else if (Math.abs(verticalDifference) > Math.abs(horizontalDifference)) {
+    tapped = false;
+  } else {
+    tapped = true;
+  }
 
-    if (tapped) {
-        toggleVote();
-    }
+  if (tapped) {
+      toggleVote();
+  }
 }
