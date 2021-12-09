@@ -1,11 +1,13 @@
 const body = document.getElementById("body");
-const threshold = 50;
 
+// For touch events
+const threshold = 50;
 let touchStartX = 0;
 let touchEndX = 0;
 let touchStartY = 0;
 let touchEndY = 0;
 
+// Handle key events
 window.addEventListener(
   "keydown",
   (event) => {
@@ -35,6 +37,7 @@ window.addEventListener(
   true,
 );
 
+// Handle touch events
 body.addEventListener(
   "touchstart",
   function (event) {
@@ -66,3 +69,72 @@ function handleGesture() {
     }
   }
 }
+
+// Button events
+document.getElementById("upvote").addEventListener("click", async () => {
+  const index = getIndex();
+  const currentValue = await getVote(index, getSnowflake());
+  let data;
+
+  if (currentValue == 0) {
+    data = await addVote(index, 1, getSnowflake());
+    setVoteButtonActive("upvote", true);
+    setVoteButtonActive("downvote", false);
+  } else if (currentValue == 1) {
+    data = await nullifyVote(index, getSnowflake());
+    setVoteButtonActive("upvote", false);
+    setVoteButtonActive("downvote", false);
+  } else if (currentValue == -1) {
+    await nullifyVote(index, getSnowflake());
+    data = await addVote(index, 1, getSnowflake());
+    setVoteButtonActive("upvote", true);
+    setVoteButtonActive("downvote", false);
+  }
+
+  addFadeInOutAnimation(
+    "votes",
+    "vote-shrink",
+    "vote-grow",
+    (e) => (e.innerHTML = data.votes),
+  );
+});
+
+document.getElementById("downvote").addEventListener("click", async () => {
+  const index = getIndex();
+  const currentValue = await getVote(index, getSnowflake());
+  let data;
+
+  if (currentValue == 0) {
+    data = await addVote(index, -1, getSnowflake());
+    setVoteButtonActive("upvote", false);
+    setVoteButtonActive("downvote", true);
+  } else if (currentValue == -1) {
+    data = await nullifyVote(index, getSnowflake());
+    setVoteButtonActive("upvote", false);
+    setVoteButtonActive("downvote", false);
+  } else if (currentValue == 1) {
+    await nullifyVote(index, getSnowflake());
+    data = await addVote(index, -1, getSnowflake());
+    setVoteButtonActive("upvote", false);
+    setVoteButtonActive("downvote", true);
+  }
+
+  addFadeInOutAnimation(
+    "votes",
+    "vote-shrink",
+    "vote-grow",
+    (e) => (e.innerHTML = data.votes),
+  );
+});
+
+document.getElementById("forward").addEventListener("click", async () => {
+  setIndex(getIndex() + 1);
+  setImage(getIndex());
+});
+
+document.getElementById("back").addEventListener("click", async () => {
+  if (getIndex() > 0) {
+    setIndex(getIndex() - 1);
+    setImage(getIndex());
+  }
+});

@@ -3,22 +3,19 @@ import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import { router } from "./routes.ts";
 
 const PORT = 8002;
+const CERTIFICATE_PATH = "/etc/letsencrypt/live/dog.jamalam.tech/fullchain.pem";
+const PRIVATE_KEY_PATH = "/etc/letsencrypt/live/dog.jamalam.tech/privkey.pem";
 
 const app = new Application();
 
-if (true) {
-  app.use(
-    oakCors({
-      origin: "https://dog.jamalam.tech",
-    }),
+let development = false;
+
+await Deno.readTextFile(CERTIFICATE_PATH).catch(() => {
+  console.log(
+    "Certificate file not found; using development environment settings",
   );
-} else {
-  app.use(
-    oakCors({
-      origin: "*",
-    }),
-  );
-}
+  development = true;
+});
 
 app.use(router.allowedMethods());
 app.use(router.routes());
@@ -27,9 +24,29 @@ app.addEventListener("listen", () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-await app.listen({
-  port: PORT,
-  secure: true,
-  certFile: "/etc/letsencrypt/live/dog.jamalam.tech/fullchain.pem",
-  keyFile: "/etc/letsencrypt/live/dog.jamalam.tech/privkey.pem",
-});
+if (!development) {
+  app.use(
+    oakCors({
+      origin: "https://dog.jamalam.tech",
+    }),
+  );
+
+  await app.listen({
+    port: PORT,
+    secure: true,
+    certFile: CERTIFICATE_PATH,
+    keyFile: PRIVATE_KEY_PATH,
+  });
+} else {
+  console.log("Loading development environment settings...");
+
+  app.use(
+    oakCors({
+      origin: false,
+    })
+  )
+
+  await app.listen({
+    port: PORT,
+  });
+}

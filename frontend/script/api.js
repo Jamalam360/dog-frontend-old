@@ -69,76 +69,8 @@ async function toggleVote() {
     "votes",
     "vote-shrink",
     "vote-grow",
-    (e) => (e.innerHTML = data.votes)
+    (e) => (e.innerHTML = data.votes),
   );
-}
-
-async function upVote() {
-  const index = getIndex();
-  const currentValue = await getVote(index, getSnowflake());
-  let data;
-
-  if (currentValue == 0) {
-    data = await addVote(index, 1, getSnowflake());
-    setVoteButtonActive("upvote", true);
-    setVoteButtonActive("downvote", false);
-  } else if (currentValue == 1) {
-    data = await nullifyVote(index, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", false);
-  } else if (currentValue == -1) {
-    await nullifyVote(index, getSnowflake());
-    data = await addVote(index, 1, getSnowflake());
-    setVoteButtonActive("upvote", true);
-    setVoteButtonActive("downvote", false);
-  }
-
-  addFadeInOutAnimation(
-    "votes",
-    "vote-shrink",
-    "vote-grow",
-    (e) => (e.innerHTML = data.votes)
-  );
-}
-
-async function downVote() {
-  const index = getIndex();
-  const currentValue = await getVote(index, getSnowflake());
-  let data;
-
-  if (currentValue == 0) {
-    data = await addVote(index, -1, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", true);
-  } else if (currentValue == -1) {
-    data = await nullifyVote(index, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", false);
-  } else if (currentValue == 1) {
-    await nullifyVote(index, getSnowflake());
-    data = await addVote(index, -1, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", true);
-  }
-
-  addFadeInOutAnimation(
-    "votes",
-    "vote-shrink",
-    "vote-grow",
-    (e) => (e.innerHTML = data.votes)
-  );
-}
-
-function forward() {
-  setIndex(getIndex() + 1);
-  setImage(getIndex());
-}
-
-function back() {
-  if (getIndex() > 0) {
-    setIndex(getIndex() - 1);
-    setImage(getIndex());
-  }
 }
 
 async function setImage(index) {
@@ -156,7 +88,7 @@ async function setImage(index) {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = data.votes)
+      (e) => (e.innerHTML = data.votes),
     );
 
     imageInUse = nextImage;
@@ -172,9 +104,21 @@ async function setImage(index) {
       setVoteButtonActive("downvote", false);
     }
   });
-  
-  document.querySelector('meta[property="og:title"]').setAttribute("content", "View post on dog.jamalam.tech");
-  document.querySelector('meta[property="og:description"]').setAttribute("content", "View a post with " + data.votes + " votes");
-  document.querySelector('meta[property="og:url"]').setAttribute("content", createQueryUrl(getIndex()));
-  document.querySelector('meta[property="og:image"]').setAttribute("content", data.url);
+
+  document.querySelector('meta[property="og:title"]').setAttribute(
+    "content",
+    "View post on dog.jamalam.tech",
+  );
+  document.querySelector('meta[property="og:description"]').setAttribute(
+    "content",
+    "View a post with " + data.votes + " votes",
+  );
+  document.querySelector('meta[property="og:url"]').setAttribute(
+    "content",
+    createQueryUrl(getIndex()),
+  );
+  document.querySelector('meta[property="og:image"]').setAttribute(
+    "content",
+    data.url,
+  );
 }

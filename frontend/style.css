@@ -1,3 +1,8 @@
+.all-container {
+  height: 100%;
+  width: 100%;
+}
+
 .dog-img {
   max-width: 100%;
   max-height: 500px;
@@ -40,11 +45,22 @@
 }
 
 .footer-div {
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+
   position: relative;
-  bottom: 40%;
+  height: 1vh;
+  bottom: 2vh;
   width: 100%;
   text-align: center;
   padding-top: 0px;
+}
+
+.footer-content {
+  position: relative;
+  top: -15%;
+  transform: translateY(-50%);
 }
 
 .vote-text {
