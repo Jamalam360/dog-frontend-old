@@ -172,4 +172,9 @@ async function setImage(index) {
       setVoteButtonActive("downvote", false);
     }
   });
+  
+  document.querySelector('meta[property="og:title"]').setAttribute("content", "View post on dog.jamalam.tech");
+  document.querySelector('meta[property="og:description"]').setAttribute("content", "View a post with " + data.votes + " votes");
+  document.querySelector('meta[property="og:url"]').setAttribute("content", createQueryUrl(getIndex()));
+  document.querySelector('meta[property="og:image"]').setAttribute("content", data.url);
 }
