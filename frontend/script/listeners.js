@@ -17,16 +17,16 @@ window.addEventListener(
 
     switch (event.key) {
       case "ArrowUp":
-        upVote();
+        document.getElementById("upvote").click();
         break;
       case "ArrowDown":
-        downVote();
+        document.getElementById("downvote").click();
         break;
       case "ArrowLeft":
-        back();
+        document.getElementById("back").click();
         break;
       case "ArrowRight":
-        forward();
+        document.getElementById("forward").click();
         break;
       default:
         return;
