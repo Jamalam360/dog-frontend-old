@@ -28,7 +28,11 @@ app.addEventListener("listen", () => {
   console.log(`Listening on port ${PORT}`);
 });
 
+console.log("Development: ", development);
+
 if (!development) {
+  console.log("Using production environment settings");
+
   app.use(
     oakCors({
       origin: "https://dog.jamalam.tech",
@@ -42,7 +46,7 @@ if (!development) {
     keyFile: PRIVATE_KEY_PATH,
   });
 } else {
-  console.log("Loading development environment settings...");
+  console.log("Using development environment settings");
 
   app.use(
     oakCors({
