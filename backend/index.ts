@@ -18,9 +18,6 @@ await Deno.readTextFile(CERTIFICATE_PATH).catch(() => {
   development = true;
 });
 
-app.use(router.allowedMethods());
-app.use(router.routes());
-
 app.use(logger.logger);
 app.use(logger.responseTime);
 
@@ -39,6 +36,9 @@ if (!development) {
     }),
   );
 
+  app.use(router.allowedMethods());
+  app.use(router.routes());
+
   await app.listen({
     port: PORT,
     secure: true,
@@ -53,6 +53,9 @@ if (!development) {
       origin: false,
     }),
   );
+
+  app.use(router.allowedMethods());
+  app.use(router.routes());
 
   await app.listen({
     port: PORT,
