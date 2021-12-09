@@ -17,5 +17,5 @@ function setSnowflake(snowflake) {
 }
 
 function createQueryUrl(index) {
-    return apiBase + "?index=" + index;
+    return "https://dog.jamalam.tech/" + "?index=" + index;
 }
