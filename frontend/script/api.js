@@ -38,7 +38,7 @@ function share() {
       url: createQueryUrl(getIndex()),
     });
   } else {
-    navigator.clipboard.writeText(createQueryUrl(getIndex()));
+    await navigator.clipboard.writeText(createQueryUrl(getIndex()));
     alert("Copied to clipboard!");
   }
 }
