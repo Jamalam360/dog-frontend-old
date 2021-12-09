@@ -43,8 +43,8 @@ if (!development) {
   app.use(
     oakCors({
       origin: false,
-    })
-  )
+    }),
+  );
 
   await app.listen({
     port: PORT,

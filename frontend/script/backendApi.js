@@ -38,7 +38,7 @@ async function addVote(index, value, snowflake) {
     apiBase + "/posts/" + index + "/" + option + "/" + snowflake,
     {
       method: "GET",
-    }
+    },
   );
   const data = await req.json();
   return data;
@@ -49,7 +49,7 @@ async function nullifyVote(index, snowflake) {
     apiBase + "/posts/" + index + "/removeVote" + "/" + snowflake,
     {
       method: "GET",
-    }
+    },
   );
   const data = await req.json();
   return data;
