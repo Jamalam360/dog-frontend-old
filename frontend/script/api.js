@@ -28,7 +28,7 @@ window.onload = async function () {
   setImage(getIndex()); // Finally, load the image with the requested index
 };
 
-function share() {
+async function share() {
   // If the browser and OS support the Web Share API, use it; if not, just copy the link to clipboard
 
   if (navigator.share) {
