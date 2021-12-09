@@ -1,53 +1,37 @@
+// deno-lint-ignore-file no-unused-vars
+
 let imageInUse = "dog";
 
 window.onload = async function () {
-  // Handle query parameters
-  var params = window.location.search.substr(1).split("&");
-  var arr = params[0].split("=");
-  var requestedIndex = null;
+  // Handle query parameters (index)
 
-  if (arr[0] == "index") {
+  const params = window.location.search.substr(1).split("&"); // Get parameters as an array of key=value
+  const arr = params[0].split("=");
+  let requestedIndex = null;
+
+  if (arr[0] == "index") { // Check we aren't just using any random parameter
     requestedIndex = params[0].split("=")[1];
   }
 
-  if (requestedIndex) {
+  if (requestedIndex) { // If there is an index parameter, assign it
     setIndex(requestedIndex);
-  } else {
+  } else { // Else, if we haven't aready got an index, set it to zero
     if (!getIndex()) {
       setIndex(0);
     }
   }
 
-  if (getSnowflake() == null) {
-    const snowflake = await genSnowflake();
-    setSnowflake(snowflake);
+  if (getSnowflake() == null) { // Generate and set snowflake, if not set already
+    setSnowflake(await genSnowflake());
   }
 
-  setImage(getIndex());
+  setImage(getIndex()); // Finally, load the image with the requested index
 };
 
-Array.prototype.insert = function (index, item) {
-  this.splice(index, 0, item);
-};
+function share() {
+  // This is a temporary method, once the site uses HTTPS, we can use the provided methods
 
-function getIndex() {
-  return parseInt(localStorage.index);
-}
-
-function setIndex(value) {
-  localStorage.setItem("index", value);
-}
-
-function getSnowflake() {
-  return localStorage.snowflake;
-}
-
-function setSnowflake(snowflake) {
-  localStorage.setItem("snowflake", snowflake);
-}
-
-async function share() {
-  var textArea = document.createElement("textarea");
+  const textArea = document.createElement("textarea");
   textArea.textContent = "http://dog.jamalam.tech/?index=" + getIndex();
   textArea.style.position = "fixed";
   document.body.appendChild(textArea);

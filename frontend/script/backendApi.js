@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-unused-vars
+
 const apiBase = "http://dog.jamalam.tech:8002";
 //const apiBase = "http://localhost:8002";
 
@@ -16,10 +18,10 @@ async function getPost(index, snowflake) {
 }
 
 async function getVote(index, snowflake) {
-  let req = await fetch(apiBase + "/posts/" + index + "/" + snowflake, {
+  const req = await fetch(apiBase + "/posts/" + index + "/" + snowflake, {
     method: "GET",
   });
-  let data = await req.json();
+  const data = await req.json();
   return data.value;
 }
 
