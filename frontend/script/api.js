@@ -193,6 +193,7 @@ async function setImage(index) {
     }
   });
 
+  document.getElementById("embedDescription").innerHTML = data.votes;
   document.getElementById("embedUrl").content = "http://dog.jamalam.tech/?index=" + index;
   document.getElementById("embedImg").content = document.getElementById(imageInUse).src;
 }
