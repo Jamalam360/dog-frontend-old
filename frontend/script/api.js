@@ -29,21 +29,17 @@ window.onload = async function () {
 };
 
 function share() {
-  // This is a temporary method, once the site uses HTTPS, we can use the provided methods
+  // If the browser and OS support the Web Share API, use it; if not, just copy the link to clipboard
 
-  const textArea = document.createElement("textarea");
-  textArea.textContent = "http://dog.jamalam.tech/?index=" + getIndex();
-  textArea.style.position = "fixed";
-  document.body.appendChild(textArea);
-  textArea.select();
-  try {
-    document.execCommand("copy");
-    alert("Copied to clipboard");
-  } catch (ex) {
-    console.warn("Copy to clipboard failed.", ex);
-    alert("Failed to copy to clipboard");
-  } finally {
-    document.body.removeChild(textArea);
+  if (navigator.share) {
+    navigator.share({
+      title: "Doggo!",
+      text: "Send this post to your friends!",
+      url: createQueryUrl(getIndex()),
+    });
+  } else {
+    navigator.clipboard.writeText(createQueryUrl(getIndex()));
+    alert("Copied to clipboard!");
   }
 }
 
@@ -176,8 +172,4 @@ async function setImage(index) {
       setVoteButtonActive("downvote", false);
     }
   });
-
-  document.querySelector('meta[name="description"]').setAttribute("content", data.votes + " votes");
-  document.querySelector('meta[name="url"]').setAttribute("content", "http://dog.jamalam.tech/?index=" + index);
-  document.querySelector('meta[name="image"]').setAttribute("content", document.getElementById(imageInUse).src);
 }
