@@ -63,9 +63,9 @@ function handleGesture() {
 
   if (Math.abs(horizontalDifference) > Math.abs(verticalDifference)) {
     if (horizontalDifference >= threshold) {
-      forward();
+      document.getElementById("forward").click();
     } else if (horizontalDifference <= -threshold) {
-      back();
+      document.getElementById("back").click();
     }
   }
 }
