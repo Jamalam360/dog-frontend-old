@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-unused-vars
 
-const apiBase = "http://dog.jamalam.tech:8002";
+const apiBase = "https://dog.jamalam.tech:8002";
 //const apiBase = "http://localhost:8002";
 
 async function genSnowflake() {
