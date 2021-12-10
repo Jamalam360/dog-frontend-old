@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   text-align:center;
+  max-height: 100vh;
 }
 
 .dog-img {
@@ -12,7 +13,7 @@
 }
 
 .vote-button-div {
-  max-height: 10vh;
+  max-height: 8vh;
   max-width: 100vw;
 }
 
@@ -22,7 +23,7 @@
 }
 
 .vote-button {
-  max-height: 30vh;
+  max-height: 25vh;
 }
 
 .vote-button-active {
@@ -42,8 +43,12 @@
 
 .vote-text {
   font-family: "Raleway", sans-serif;
-  font-size: 60px;
+  font-size: 50px;
   transform: translateY(-50%);
+}
+
+.share-button {
+  max-height: 6vh;
 }
 
 @keyframes button-hover {
