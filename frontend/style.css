@@ -1,31 +1,28 @@
-.all-container {
-  height: 100%;
-  width: 100%;
+.parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align:center;
 }
 
 .dog-img {
-  max-width: 100%;
-  max-height: 500px;
-  width: auto;
-  height: auto;
+  max-width: 100vw;
+  max-height: 60vh;
 }
 
-.dog-img-div {
-  padding-top: 15px;
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  justify-content: center;
-  max-height: 500px;
-  max-width: 100%;
-  height: 500px;
+.vote-button-div {
+  max-height: 10vh;
+  max-width: 100vw;
+}
+
+.footer-div {
+  max-height: 10vh;
+  max-width: 100vw;
 }
 
 .vote-button {
-  display: inline-block;
-  margin-left: auto;
-  margin-right: auto;
-  height: 128px;
+  max-height: 30vh;
 }
 
 .vote-button-active {
@@ -39,37 +36,14 @@
 }
 
 .vote-text-div {
-  position: relative;
-  top: -50px;
-  text-align: center;
-}
-
-.footer-div {
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-
-  position: relative;
-  height: 1vh;
-  bottom: 2vh;
-  width: 100%;
-  text-align: center;
-  padding-top: 0px;
-}
-
-.footer-content {
-  position: relative;
-  top: -15%;
-  transform: translateY(-50%);
+  max-width: 100vw;
+  max-height: 10vh;
 }
 
 .vote-text {
   font-family: "Raleway", sans-serif;
   font-size: 60px;
-}
-
-.top {
-  padding-bottom: 10px;
+  transform: translateY(-50%);
 }
 
 @keyframes button-hover {
@@ -98,12 +72,6 @@
     max-height: 500px;
     max-width: 100%;
     height: 500px;
-  }
-}
-
-@media screen and (min-height: 800) {
-  .top {
-    padding-bottom: 20px;
   }
 }
 
