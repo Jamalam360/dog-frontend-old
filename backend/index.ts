@@ -25,7 +25,7 @@ app.addEventListener("listen", () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-console.log("Development: ", development);
+console.log("Development:", development);
 
 if (!development) {
   console.log("Using production environment settings");
