@@ -37,7 +37,7 @@ function updateVoteText(currentVote, voteValue) {
   var newValue;
   console.log(voteValue);
 
-  if (voteValue == 0) {
+  if (voteValue == 0 || !voteValue) {
     newValue = "?";
   } else {
     newValue = currentVote;
