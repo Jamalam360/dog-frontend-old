@@ -51,19 +51,15 @@ async function toggleVote() {
 
   if (currentValue == 0) {
     data = await addVote(index, 1, getSnowflake());
-    setVoteButtonActive("upvote", true);
-    setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
     await nullifyVote(index, getSnowflake());
     data = await addVote(index, -1, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", true);
   } else if (currentValue == -1) {
     await nullifyVote(index, getSnowflake());
     data = await addVote(index, 1, getSnowflake());
-    setVoteButtonActive("upvote", true);
-    setVoteButtonActive("downvote", false);
   }
+
+  updateVoteButtons(currentValue)
 
   addFadeInOutAnimation(
     "votes",
@@ -79,35 +75,14 @@ async function setImage(index) {
 
   document.getElementById(nextImage).src = data.url;
 
-  var next = data.value
-
-  if (next == 0 || !next) {
-    next = "?"
-  }
-
   addAnimation(imageInUse, "dog-img-fade-out", () => {
     document.getElementById(imageInUse).classList.add("hidden");
     document.getElementById(nextImage).classList.remove("hidden");
     addAnimation(nextImage, "dog-img-fade-in");
 
-    addFadeInOutAnimation(
-      "votes",
-      "vote-shrink",
-      "vote-grow",
-      (e) => (e.innerHTML = next),
-    );
+    updateVoteText(data.votes, data.value);
+    updateVoteButtons(data.value)
 
     imageInUse = nextImage;
-
-    if (data.value == 1) {
-      setVoteButtonActive("upvote", true);
-      setVoteButtonActive("downvote", false);
-    } else if (data.value == -1) {
-      setVoteButtonActive("upvote", false);
-      setVoteButtonActive("downvote", true);
-    } else {
-      setVoteButtonActive("upvote", false);
-      setVoteButtonActive("downvote", false);
-    }
   });
 }

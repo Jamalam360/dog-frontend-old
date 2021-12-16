@@ -19,3 +19,33 @@ function setSnowflake(snowflake) {
 function createQueryUrl(index) {
   return "https://dog.jamalam.tech/" + "?index=" + index;
 }
+
+function updateVoteButtons(value) {
+  if (value == 1) {
+    setVoteButtonActive("upvote", true);
+    setVoteButtonActive("downvote", false);
+  } else if (value == -1) {
+    setVoteButtonActive("upvote", false);
+    setVoteButtonActive("downvote", true);
+  } else {
+    setVoteButtonActive("upvote", false);
+    setVoteButtonActive("downvote", false);
+  }
+}
+
+function updateVoteText(currentVote, voteValue) {
+  var newValue;
+
+  if (voteValue == 0) {
+    newValue = "?";
+  } else {
+    newValue = currentVote;
+  }
+
+  addFadeInOutAnimation(
+    "votes",
+    "vote-shrink",
+    "vote-grow",
+    (e) => (e.innerHTML = newValue),
+  );
+}

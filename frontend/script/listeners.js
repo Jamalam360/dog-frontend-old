@@ -78,25 +78,15 @@ document.getElementById("upvote").addEventListener("click", async () => {
 
   if (currentValue == 0) {
     data = await addVote(index, 1, getSnowflake());
-    setVoteButtonActive("upvote", true);
-    setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
     data = await nullifyVote(index, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", false);
   } else if (currentValue == -1) {
     await nullifyVote(index, getSnowflake());
     data = await addVote(index, 1, getSnowflake());
-    setVoteButtonActive("upvote", true);
-    setVoteButtonActive("downvote", false);
   }
 
-  addFadeInOutAnimation(
-    "votes",
-    "vote-shrink",
-    "vote-grow",
-    (e) => (e.innerHTML = data.votes),
-  );
+  updateVoteButtons(currentValue);
+  updateVoteText(currentValue);
 });
 
 document.getElementById("downvote").addEventListener("click", async () => {
@@ -106,25 +96,15 @@ document.getElementById("downvote").addEventListener("click", async () => {
 
   if (currentValue == 0) {
     data = await addVote(index, -1, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", true);
   } else if (currentValue == -1) {
     data = await nullifyVote(index, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", false);
   } else if (currentValue == 1) {
     await nullifyVote(index, getSnowflake());
     data = await addVote(index, -1, getSnowflake());
-    setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote", true);
   }
 
-  addFadeInOutAnimation(
-    "votes",
-    "vote-shrink",
-    "vote-grow",
-    (e) => (e.innerHTML = data.votes),
-  );
+  updateVoteButtons(currentValue);
+  updateVoteText(data.votes, currentValue);
 });
 
 document.getElementById("forward").addEventListener("click", async () => {
