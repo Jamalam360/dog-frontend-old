@@ -60,13 +60,7 @@ async function toggleVote() {
   }
 
   updateVoteButtons(currentValue)
-
-  addFadeInOutAnimation(
-    "votes",
-    "vote-shrink",
-    "vote-grow",
-    (e) => (e.innerHTML = data.votes),
-  );
+  updateVoteText(data.votes, currentValue)
 }
 
 async function setImage(index) {
