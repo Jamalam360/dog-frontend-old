@@ -81,7 +81,7 @@ async function setImage(index) {
 
   var next = data.value
 
-  if (next == 0) {
+  if (next == 0 || !next) {
     next = "?"
   }
 
