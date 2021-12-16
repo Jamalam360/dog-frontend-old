@@ -79,6 +79,12 @@ async function setImage(index) {
 
   document.getElementById(nextImage).src = data.url;
 
+  var next = data.value
+
+  if (next == 0) {
+    next = "?"
+  }
+
   addAnimation(imageInUse, "dog-img-fade-out", () => {
     document.getElementById(imageInUse).classList.add("hidden");
     document.getElementById(nextImage).classList.remove("hidden");
@@ -88,7 +94,7 @@ async function setImage(index) {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = "?"),
+      (e) => (e.innerHTML = next),
     );
 
     imageInUse = nextImage;
@@ -104,21 +110,4 @@ async function setImage(index) {
       setVoteButtonActive("downvote", false);
     }
   });
-
-  document.querySelector('meta[property="og:title"]').setAttribute(
-    "content",
-    "View post on dog.jamalam.tech",
-  );
-  document.querySelector('meta[property="og:description"]').setAttribute(
-    "content",
-    "View a post with " + data.votes + " votes",
-  );
-  document.querySelector('meta[property="og:url"]').setAttribute(
-    "content",
-    createQueryUrl(getIndex()),
-  );
-  document.querySelector('meta[property="og:image"]').setAttribute(
-    "content",
-    data.url,
-  );
 }
