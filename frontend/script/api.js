@@ -88,7 +88,7 @@ async function setImage(index) {
       "votes",
       "vote-shrink",
       "vote-grow",
-      (e) => (e.innerHTML = data.votes),
+      (e) => (e.innerHTML = "?"),
     );
 
     imageInUse = nextImage;
