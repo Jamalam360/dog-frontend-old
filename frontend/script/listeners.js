@@ -127,3 +127,11 @@ document.getElementById("share").addEventListener("click", async () => {
     alert("Copied to clipboard!");
   }
 });
+
+document.getElementById("dog").addEventListener("dblclick", async () => {
+  open(document.getElementById("dog").src);
+});
+
+document.getElementById("dog-2").addEventListener("dblclick", async () => {
+  open(document.getElementById("dog-2").src);
+});
