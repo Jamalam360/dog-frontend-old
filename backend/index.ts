@@ -2,8 +2,8 @@ import { Application } from "https://deno.land/x/oak@v10.0.0/mod.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import { router } from "./router/routes.ts";
 import "./router/initRoutes.ts";
-import logger from "https://deno.land/x/oak_logger@1.0.0/mod.ts";
 import { cyan, yellow } from "https://deno.land/std@0.53.0/fmt/colors.ts";
+import { tryRecache } from "./dogApi/dogApi.ts"
 
 const PORT = 8002;
 const CERTIFICATE_PATH = "/etc/letsencrypt/live/dog.jamalam.tech/fullchain.pem";
@@ -26,8 +26,25 @@ router.forEach((entry) => {
   console.log(cyan("Registered Path: " + entry.path));
 });
 
-app.use(logger.logger);
-app.use(logger.responseTime);
+// Logger
+app.use(async (ctx, next) => {
+  await next();
+  const rt = ctx.response.headers.get("X-Response-Time");
+  console.log(cyan(ctx.request.method + " " + ctx.request.url + " - " + rt + "ms"))
+});
+
+// Timing
+app.use(async (ctx, next) => {
+  const start = Date.now();
+  await next();
+  const ms = Date.now() - start;
+  ctx.response.headers.set("X-Response-Time", ms + "ms");
+});
+
+app.use(async (ctx, next) => {
+  await next();
+  tryRecache();
+});
 
 app.addEventListener("listen", () => {
   console.log(cyan("Listening on port " + PORT));

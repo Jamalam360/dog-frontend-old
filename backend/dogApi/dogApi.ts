@@ -2,8 +2,9 @@ import { cyan, yellow } from "https://deno.land/std@0.53.0/fmt/colors.ts";
 
 const BASE_URL = "https://api.github.com/repos/Jamalam360/dog-api-images/contents";
 const CACHE_FILE = "image_cache.json";
-const CACHE_DELAY = new Date().getTime() + (1 * 24 * 60 * 60 * 1000) // Recache every 24 hours
 const TOKEN = await Deno.readTextFile("./gh.env");
+
+let images: string[] = [];
 
 async function isRateLimited(): Promise<boolean> {
     const res = await fetch(BASE_URL, {
@@ -64,36 +65,42 @@ async function shouldRecache(): Promise<boolean> {
     }
 
     const date = new Date(JSON.parse(json as string).cacheTime);
+    
     console.log(yellow("Current Date: " + new Date().toString()));
-    console.log(yellow("Last Cache Date: " + date.toString()))
-    return date.getTime() < CACHE_DELAY;
+    console.log(yellow("Last Cache Date: " + date.toString()));
+    
+    return Math.round((new Date() - date) / (1000 * 60 * 60 * 24)) >= 1; // 1 Day Delay between recaches
 }
-
-let images: string[];
-let recache;
-
-if (await shouldRecache()) {
-    if (await isRateLimited()) {
-        console.log(yellow("A recache is scheduled, but the API is rate-limited at this time"));
-        recache = false;
-    } else {
-        recache = true;
-    }
-} else {
-    recache = false;
-}
-
-if (recache) {
-    console.log(cyan("Recaching images..."))
-    images = await fetchAllImagesFromDir("", []);
-    await cacheImages(images)
-} else {
-    console.log(cyan("Reading cached images..."))
-    images = await getCachedImages();
-}
-
-console.log(cyan("Discovered and Cached " + images.length + " images"));
 
 export const getRandomImage = (): string => {
     return images[Math.floor((Math.random() * images.length))]
 };
+
+export const tryRecache = async () => {
+    let recache;
+    let needsRecache = await shouldRecache();
+    let hitRateLimit = await isRateLimited();
+
+    if (needsRecache) {
+        if (hitRateLimit) {
+            console.log(yellow("A recache is scheduled, but the API is rate-limited at this time"));
+            recache = false;
+        } else {
+            recache = true;
+        }
+    } else {
+        recache = false;
+    }
+    
+    if (recache) {
+        console.log(cyan("Recaching images..."))
+        images = await fetchAllImagesFromDir("", []);
+        await cacheImages(images)
+    } else if (images.length == 0) {
+        console.log(cyan("Reading cached images..."))
+        images = await getCachedImages();
+    }
+}
+
+await tryRecache();
+console.log(cyan("Discovered and Cached " + images.length + " images"));
