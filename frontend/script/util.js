@@ -34,8 +34,6 @@ function updateVoteButtons(value) {
 }
 
 function updateVoteText(currentVote, voteValue) {
-console.log("text " + voteValue);
-
   var newValue;
 
   if (voteValue == 0 || !voteValue) {

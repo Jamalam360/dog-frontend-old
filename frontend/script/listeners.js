@@ -112,3 +112,18 @@ document.getElementById("back").addEventListener("click", async () => {
     setImage(getIndex());
   }
 });
+
+document.getElementById("share").addEventListener("click", async () => {
+  // If the browser and OS support the Web Share API, use it; if not, just copy the link to clipboard
+
+  if (navigator.share) {
+    navigator.share({
+      title: "Doggo!",
+      text: "Send this post to your friends!",
+      url: createQueryUrl(getIndex()),
+    });
+  } else {
+    await navigator.clipboard.writeText(createQueryUrl(getIndex()));
+    alert("Copied to clipboard!");
+  }
+});
