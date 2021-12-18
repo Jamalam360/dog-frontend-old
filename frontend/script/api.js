@@ -50,17 +50,15 @@ async function toggleVote() {
   let data;
 
   if (currentValue == 0) {
-    data = await addVote(index, 1, getSnowflake());
+    data = await setVote(index, 1, getSnowflake());
   } else if (currentValue == 1) {
-    await nullifyVote(index, getSnowflake());
-    data = await addVote(index, -1, getSnowflake());
+    data = await setVote(index, -1, getSnowflake());
   } else if (currentValue == -1) {
-    await nullifyVote(index, getSnowflake());
-    data = await addVote(index, 1, getSnowflake());
+    data = await setVote(index, 1, getSnowflake());
   }
 
-  updateVoteButtons(currentValue)
-  updateVoteText(data.votes, currentValue)
+  updateVoteButtons(currentValue);
+  updateVoteText(data.votes, currentValue);
 }
 
 async function setImage(index) {
@@ -75,7 +73,7 @@ async function setImage(index) {
     addAnimation(nextImage, "dog-img-fade-in");
 
     updateVoteText(data.votes, data.value);
-    updateVoteButtons(data.value)
+    updateVoteButtons(data.value);
 
     imageInUse = nextImage;
   });

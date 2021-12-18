@@ -1,7 +1,9 @@
 import { Application } from "https://deno.land/x/oak@v10.0.0/mod.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
-import { router } from "./routes.ts";
+import { router } from "./router/routes.ts";
+import "./router/initRoutes.ts";
 import logger from "https://deno.land/x/oak_logger@1.0.0/mod.ts";
+import { cyan, yellow } from "https://deno.land/std@0.53.0/fmt/colors.ts";
 
 const PORT = 8002;
 const CERTIFICATE_PATH = "/etc/letsencrypt/live/dog.jamalam.tech/fullchain.pem";
@@ -13,22 +15,26 @@ let development = false;
 
 await Deno.readTextFile(CERTIFICATE_PATH).catch(() => {
   console.log(
-    "Certificate file not found; using development environment settings",
+    yellow(
+      "Certificate file not found; this should only occur in a development environment",
+    ),
   );
   development = true;
+});
+
+router.forEach((entry) => {
+  console.log(cyan("Registered Path: " + entry.path));
 });
 
 app.use(logger.logger);
 app.use(logger.responseTime);
 
 app.addEventListener("listen", () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(cyan("Listening on port " + PORT));
 });
 
-console.log("Development:", development);
-
 if (!development) {
-  console.log("Using production environment settings");
+  console.log(cyan("Using production environment settings"));
 
   app.use(
     oakCors({
@@ -46,13 +52,7 @@ if (!development) {
     keyFile: PRIVATE_KEY_PATH,
   });
 } else {
-  console.log("Using development environment settings");
-
-  app.use(
-    oakCors({
-      origin: false,
-    }),
-  );
+  console.log(yellow("Using development environment settings"));
 
   app.use(router.allowedMethods());
   app.use(router.routes());

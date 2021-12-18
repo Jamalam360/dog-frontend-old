@@ -76,13 +76,10 @@ document.getElementById("upvote").addEventListener("click", async () => {
   const currentValue = await getVote(index, getSnowflake());
   let data;
 
-  if (currentValue == 0) {
-    data = await addVote(index, 1, getSnowflake());
-  } else if (currentValue == 1) {
-    data = await nullifyVote(index, getSnowflake());
-  } else if (currentValue == -1) {
-    await nullifyVote(index, getSnowflake());
-    data = await addVote(index, 1, getSnowflake());
+  if (currentValue == 1) {
+    data = await setVote(index, 0, getSnowflake());
+  } else {
+    data = await setVote(index, 1, getSnowflake());
   }
 
   updateVoteButtons(currentValue);
@@ -94,13 +91,10 @@ document.getElementById("downvote").addEventListener("click", async () => {
   const currentValue = await getVote(index, getSnowflake());
   let data;
 
-  if (currentValue == 0) {
-    data = await addVote(index, -1, getSnowflake());
-  } else if (currentValue == -1) {
-    data = await nullifyVote(index, getSnowflake());
-  } else if (currentValue == 1) {
-    await nullifyVote(index, getSnowflake());
-    data = await addVote(index, -1, getSnowflake());
+  if (currentValue == -1) {
+    data = await setVote(index, 0, getSnowflake());
+  } else {
+    data = await setVote(index, -1, getSnowflake());
   }
 
   updateVoteButtons(currentValue);

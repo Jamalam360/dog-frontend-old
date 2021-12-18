@@ -1,5 +1,5 @@
 import { Bson, MongoClient } from "https://deno.land/x/mongo@v0.28.1/mod.ts";
-import { getRandomDogImage } from "./dogApi.ts";
+import { getRandomDogImage } from "../util.ts";
 import Snowflake from "https://deno.land/x/snowflake@v1/mod.ts";
 
 const client = new MongoClient();
@@ -47,13 +47,13 @@ const appendTillIndex = (
   return arr;
 };
 
-export const createUser = async (): Promise<User | undefined> => {
+export const createUser = async (): Promise<User> => {
   const user = await users.insertOne({
     snowflake: snowflake.toBase64(await snowflake.generate()),
     votedOn: [],
   });
 
-  return await users.findOne({ _id: user });
+  return await users.findOne({ _id: user }) as User;
 };
 
 export const getOrCreatePost = async (
@@ -82,17 +82,13 @@ export const getOrCreatePost = async (
   return post;
 };
 
-export const getOrCreateUser = async (
+export const getUser = async (
   userSnowflake: string,
 ): Promise<User | undefined> => {
-  if (await users.findOne({ snowflake: userSnowflake })) {
-    return await users.findOne({ snowflake: userSnowflake });
-  } else {
-    return await createUser();
-  }
+  return await users.findOne({ snowflake: userSnowflake });
 };
 
-export const addVoteToUser = async (
+export const setVoteForUser = async (
   user: User,
   postIndex: number,
   voteValue: number,
@@ -107,36 +103,14 @@ export const addVoteToUser = async (
   );
 };
 
-export const removeVoteFromUser = async (
-  user: User,
-  postIndex: number,
-) => {
-  user.votedOn[postIndex] = 0;
-  await users.updateOne(
-    { _id: user._id },
-    {
-      $set: {
-        votedOn: user.votedOn,
-      },
-    },
-  );
-};
-
-export const addVote = async (index: number): Promise<Post | undefined> => {
+export const setVoteForPost = async (
+  index: number,
+  extra: number,
+): Promise<Post | undefined> => {
   const post = await getOrCreatePost(index);
 
   if (post) {
-    await posts.updateOne({ _id: post._id }, { $inc: { votes: 1 } });
-  }
-
-  return await getOrCreatePost(index);
-};
-
-export const removeVote = async (index: number): Promise<Post | undefined> => {
-  const post = await getOrCreatePost(index);
-
-  if (post) {
-    await posts.updateOne({ _id: post._id }, { $inc: { votes: -1 } });
+    await posts.updateOne({ _id: post._id }, { $inc: { votes: extra } });
   }
 
   return await getOrCreatePost(index);

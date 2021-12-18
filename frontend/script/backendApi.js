@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-unused-vars
 
-const apiBase = "https://dog.jamalam.tech:8002";
+const apiBase = "https://dog.jamalam.tech:8002/v0";
 //const apiBase = "http://localhost:8002";
 
 async function genSnowflake() {
@@ -10,46 +10,20 @@ async function genSnowflake() {
 }
 
 async function getPost(index, snowflake) {
-  const req = await fetch(apiBase + "/posts/" + index + "/" + snowflake, {
-    method: "GET",
-  });
+  const req = await fetch(apiBase + "/posts/" + index + "/" + snowflake);
   const data = await req.json();
   return data;
 }
 
 async function getVote(index, snowflake) {
-  const req = await fetch(apiBase + "/posts/" + index + "/" + snowflake, {
-    method: "GET",
-  });
+  const req = await fetch(apiBase + "/posts/" + index + "/" + snowflake);
   const data = await req.json();
   return data.value;
 }
 
-async function addVote(index, value, snowflake) {
-  let option = "";
-
-  if (value == 1) {
-    option = "up";
-  } else if (value == -1) {
-    option = "down";
-  }
-
+async function setVote(index, value, snowflake) {
   const req = await fetch(
-    apiBase + "/posts/" + index + "/" + option + "/" + snowflake,
-    {
-      method: "GET",
-    },
-  );
-  const data = await req.json();
-  return data;
-}
-
-async function nullifyVote(index, snowflake) {
-  const req = await fetch(
-    apiBase + "/posts/" + index + "/removeVote" + "/" + snowflake,
-    {
-      method: "GET",
-    },
+    apiBase + "/posts/" + index + "/vote/" + value + "/" + snowflake,
   );
   const data = await req.json();
   return data;
