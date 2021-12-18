@@ -13,7 +13,7 @@
   object-fit: cover;
 }
 
-@media only screen and (mix-width: 800px) {
+@media screen and (mix-width: 800px) {
   .dog-img {
     width: 70vw;
     height: 60vh;
