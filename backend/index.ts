@@ -3,7 +3,7 @@ import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import { router } from "./router/routes.ts";
 import "./router/initRoutes.ts";
 import { cyan, yellow } from "https://deno.land/std@0.53.0/fmt/colors.ts";
-import { tryRecache } from "./dogApi/dogApi.ts"
+import { tryRecache } from "./dogApi/dogApi.ts";
 
 const PORT = 8002;
 const CERTIFICATE_PATH = "/etc/letsencrypt/live/dog.jamalam.tech/fullchain.pem";
@@ -30,7 +30,9 @@ router.forEach((entry) => {
 app.use(async (ctx, next) => {
   await next();
   const rt = ctx.response.headers.get("X-Response-Time");
-  console.log(cyan(ctx.request.method + " " + ctx.request.url + " - " + rt + "ms"))
+  console.log(
+    cyan(ctx.request.method + " " + ctx.request.url + " - " + rt + "ms"),
+  );
 });
 
 // Timing
