@@ -1,5 +1,5 @@
 import { Bson, MongoClient } from "https://deno.land/x/mongo@v0.28.1/mod.ts";
-import { getRandomDogImage } from "../util.ts";
+import { getRandomImage } from "../dogApi/dogApi.ts";
 import Snowflake from "https://deno.land/x/snowflake@v1/mod.ts";
 
 const client = new MongoClient();
@@ -62,11 +62,11 @@ export const getOrCreatePost = async (
   let post = await posts.findOne({ index: index });
 
   if (!post) {
-    let imageUrl = await getRandomDogImage();
+    let imageUrl = await getRandomImage();
     let foundPost = await posts.findOne({ imageUrl: imageUrl });
 
     while (foundPost) {
-      imageUrl = await getRandomDogImage();
+      imageUrl = await getRandomImage();
       foundPost = await posts.findOne({ imageUrl: imageUrl });
     }
 
