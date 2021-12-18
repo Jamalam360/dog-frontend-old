@@ -72,8 +72,8 @@ async function setImage(index) {
     document.getElementById(nextImage).classList.remove("hidden");
     addAnimation(nextImage, "dog-img-fade-in");
 
-    updateVoteText(data.votes, data.value);
     updateVoteButtons(data.value);
+    updateVoteText(data.votes, data.value);
 
     imageInUse = nextImage;
   });

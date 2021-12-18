@@ -83,7 +83,7 @@ document.getElementById("upvote").addEventListener("click", async () => {
   }
 
   updateVoteButtons(currentValue);
-  updateVoteText(currentValue);
+  updateVoteText(data.votes, currentValue);
 });
 
 document.getElementById("downvote").addEventListener("click", async () => {
