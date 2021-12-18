@@ -76,18 +76,14 @@ document.getElementById("upvote").addEventListener("click", async () => {
   const currentValue = await getVote(index, getSnowflake());
   let data;
 
-  console.log("Upvote. Current Value: " + currentValue);
-
   if (currentValue == 1) {
     data = await setVote(index, 0, getSnowflake());
   } else {
     data = await setVote(index, 1, getSnowflake());
   }
 
-  console.log(data);
-
-  updateVoteButtons(currentValue);
-  updateVoteText(data.votes, currentValue);
+  updateVoteButtons(data.value);
+  updateVoteText(data.votes, data.value);
 });
 
 document.getElementById("downvote").addEventListener("click", async () => {
@@ -95,18 +91,14 @@ document.getElementById("downvote").addEventListener("click", async () => {
   const currentValue = await getVote(index, getSnowflake());
   let data;
 
-  console.log("Downvote. Current Value: " + currentValue);
-
   if (currentValue == -1) {
     data = await setVote(index, 0, getSnowflake());
   } else {
     data = await setVote(index, -1, getSnowflake());
   }
 
-  console.log(data);
-
-  updateVoteButtons(currentValue);
-  updateVoteText(data.votes, currentValue);
+  updateVoteButtons(data.value);
+  updateVoteText(data.votes, data.value);
 });
 
 document.getElementById("forward").addEventListener("click", async () => {

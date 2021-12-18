@@ -21,8 +21,6 @@ function createQueryUrl(index) {
 }
 
 function updateVoteButtons(value) {
-  console.log("buttons: " + value);
-
   if (value == 1) {
     setVoteButtonActive("upvote", true);
     setVoteButtonActive("downvote", false);
@@ -45,8 +43,6 @@ console.log("text " + voteValue);
   } else {
     newValue = currentVote;
   }
-
-  console.log("text val: " + newValue)
 
   addFadeInOutAnimation(
     "votes",
