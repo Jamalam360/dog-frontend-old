@@ -29,7 +29,7 @@ function updateVoteButtons(value) {
     setVoteButtonActive("downvote", true);
   } else {
     setVoteButtonActive("upvote", false);
-    setVoteButtonActive("downvote",  false);
+    setVoteButtonActive("downvote", false);
   }
 }
 
