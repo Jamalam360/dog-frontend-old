@@ -31,7 +31,7 @@ app.use(async (ctx, next) => {
   await next();
   const rt = ctx.response.headers.get("X-Response-Time");
   console.log(
-    cyan(ctx.request.method + " " + ctx.request.url + " - " + rt + "ms"),
+    cyan(ctx.request.method + " " + ctx.request.url + " - " + rt),
   );
 });
 
@@ -43,7 +43,7 @@ app.use(async (ctx, next) => {
   ctx.response.headers.set("X-Response-Time", ms + "ms");
 });
 
-app.use(async (ctx, next) => {
+app.use(async (_ctx, next) => {
   await next();
   tryRecache();
 });

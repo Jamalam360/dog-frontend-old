@@ -70,11 +70,6 @@ async function shouldRecache(): Promise<boolean> {
 
   const date = new Date(JSON.parse(json as string).cacheTime);
 
-  console.log(yellow("Current Date: " + new Date().toString()));
-  console.log(yellow("Last Cache Date: " + date.toString()));
-  console.log(
-    Math.round((new Date().getTime() - date.getTime()) / (1000 * 60 * 60)),
-  );
   return Math.round(
     (new Date().getTime() - date.getTime()) / (1000 * 60 * 60),
   ) >= 2; // 2 hour delay between recaches
@@ -104,13 +99,20 @@ export const tryRecache = async () => {
     recache = false;
   }
 
+  const start = Date.now();
   if (recache) {
     console.log(cyan("Recaching images..."));
     images = await fetchAllImagesFromDir("", []);
     await cacheImages(images);
+
+    const ms = Date.now() - start;
+    console.log(yellow(`Fetching and caching images took ${ms}ms`));
   } else if (images.length == 0) {
     console.log(cyan("Reading cached images..."));
     images = await getCachedImages();
+
+    const ms = Date.now() - start;
+    console.log(yellow(`Reading cached images took ${ms}ms`));
   }
 };
 
