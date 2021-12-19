@@ -87,7 +87,7 @@ document.getElementById("upvote").addEventListener("click", async () => {
 
   if (getSettings().advanceOnVote) {
     setIndex(getIndex() + 1);
-    setTimeout(setImage(getIndex()), 400);
+    setTimeout(() => setImage(getIndex()), 400);
   }
 });
 
@@ -107,7 +107,7 @@ document.getElementById("downvote").addEventListener("click", async () => {
 
   if (getSettings().advanceOnVote) {
     setIndex(getIndex() + 1);
-    setTimeout(setImage(getIndex()), 400);
+    setTimeout(() => setImage(getIndex()), 400);
   }
 });
 

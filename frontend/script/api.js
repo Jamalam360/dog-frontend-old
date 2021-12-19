@@ -51,7 +51,7 @@ async function toggleVote() {
 
   if (getSettings().advanceOnVote) {
     setIndex(getIndex() + 1);
-    setTimeout(setImage(getIndex()), 400);
+    setTimeout(() => setImage(getIndex()), 400);
   }
 }
 
