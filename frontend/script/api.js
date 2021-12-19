@@ -50,7 +50,7 @@ async function toggleVote() {
   updateVoteText(data.votes, currentValue);
 
   if (getSettings().advanceOnVote) {
-    setIndex(getIndex + 1);
+    setIndex(getIndex() + 1);
     setImage(getIndex());
   }
 }

@@ -86,7 +86,7 @@ document.getElementById("upvote").addEventListener("click", async () => {
   updateVoteText(data.votes, data.value);
 
   if (getSettings().advanceOnVote) {
-    setIndex(getIndex + 1);
+    setIndex(getIndex() + 1);
     setImage(getIndex());
   }
 });
@@ -106,7 +106,7 @@ document.getElementById("downvote").addEventListener("click", async () => {
   updateVoteText(data.votes, data.value);
 
   if (getSettings().advanceOnVote) {
-    setIndex(getIndex + 1);
+    setIndex(getIndex() + 1);
     setImage(getIndex());
   }
 });
