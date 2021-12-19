@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-unused-vars
-
 let imageInUse = "dog";
 
 window.onload = async function () {
@@ -25,6 +23,12 @@ window.onload = async function () {
     setSnowflake(await genSnowflake());
   }
 
+  if (getSettings() == null) {
+    setSettings({
+      "advanceOnVote": false,
+    })
+  }
+
   setImage(getIndex()); // Finally, load the image with the requested index
 };
 
@@ -44,6 +48,11 @@ async function toggleVote() {
 
   updateVoteButtons(currentValue);
   updateVoteText(data.votes, currentValue);
+
+  if (getSettings().advanceOnVote) {
+    setIndex(getIndex + 1);
+    setImage(getIndex());
+  }
 }
 
 async function setImage(index) {

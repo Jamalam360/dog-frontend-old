@@ -84,6 +84,11 @@ document.getElementById("upvote").addEventListener("click", async () => {
 
   updateVoteButtons(data.value);
   updateVoteText(data.votes, data.value);
+
+  if (getSettings().advanceOnVote) {
+    setIndex(getIndex + 1);
+    setImage(getIndex());
+  }
 });
 
 document.getElementById("downvote").addEventListener("click", async () => {
@@ -99,6 +104,11 @@ document.getElementById("downvote").addEventListener("click", async () => {
 
   updateVoteButtons(data.value);
   updateVoteText(data.votes, data.value);
+
+  if (getSettings().advanceOnVote) {
+    setIndex(getIndex + 1);
+    setImage(getIndex());
+  }
 });
 
 document.getElementById("forward").addEventListener("click", async () => {

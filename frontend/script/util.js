@@ -16,6 +16,14 @@ function setSnowflake(snowflake) {
   localStorage.setItem("snowflake", snowflake);
 }
 
+function getSettings() {
+  return JSON.parse(localStorage.getItem("settings"));
+}
+
+function setSettings(settings) {
+  localStorage.setItem("settings", JSON.stringify(settings));
+}
+
 function createQueryUrl(index) {
   return "https://dog.jamalam.tech/" + "?index=" + index;
 }
