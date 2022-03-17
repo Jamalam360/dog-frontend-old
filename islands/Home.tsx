@@ -104,7 +104,11 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
           }}
         />
       </div>
-      <img class="max-height-60vh" src={image.url} key={image.url} />
+      <img
+        class="min-height-60vh max-height-60vh"
+        src={image.url}
+        key={image.url}
+      />
       <div class="display-flex flex-direction-row pad-vertical-20px">
         <i
           class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation ${leftStyle}`}
