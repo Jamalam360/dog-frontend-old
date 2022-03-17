@@ -1,0 +1,27 @@
+name: Deploy (CI)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  deploy:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: vx.x.x
+      - name: Pack CSS
+        run: deno run -A --no-check ./util/build.ts
+      - name: Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: dog
+          entrypoint: main.ts
+          

@@ -1,0 +1,35 @@
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-space-between {
+  justify-content: space-between;
+}
+
+.justify-content-flex-end {
+  justify-content: flex-end;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.white-space-nowrap {
+  white-space: nowrap;
+}

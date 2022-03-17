@@ -1,0 +1,7 @@
+.color-gray {
+  color: #828282;
+}
+
+.color-yellow-shadow {
+  filter: opacity(0.5) drop-shadow(0 0 0 yellow);
+}

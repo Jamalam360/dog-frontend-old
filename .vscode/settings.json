@@ -1,0 +1,11 @@
+{
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.unstable": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "editor.tabSize": 2,
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///home/james/Desktop/Development/Web/DogFresh/.github/workflows/deploy.yml"
+  }
+}
