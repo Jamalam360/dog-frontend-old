@@ -88,13 +88,33 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
 
   return (
     <div class="max-width-800px display-flex justify-content-center align-items-center flex-direction-column">
-      <div class="display-flex flex-direction-row pad-bottom-20px">
+      <div class="display-flex flex-direction-row pad-bottom-20px align-items-center">
         <i
           class="fa-solid fa-arrow-left font-size-300p pad-horizontal-20px button-hover-animation"
           onClick={(_) => {
             if (index > 0) {
               setIndex(index - 1);
             }
+          }}
+        />
+        <i
+          class="fa-solid fa-share font-size-225p pad-horizontal-20px button-hover-animation"
+          onClick={async (_) => {
+            if (typeof navigator.share !== "undefined") {
+              await navigator.share({
+                url: `https://dog.jamalam.tech/share?i=${index}`,
+              });
+            } else if (typeof navigator.clipboard.writeText !== "undefined") {
+              await navigator.clipboard.writeText(
+                `https://dog.jamalam.tech/share?i=${index}`,
+              );
+            }
+          }}
+        />
+        <i
+          class="fa-solid fa-gear font-size-225p pad-horizontal-20px button-hover-animation"
+          onClick={(_) => {
+            window.location.href = "https://dog.jamalam.tech/settings";
           }}
         />
         <i
@@ -105,7 +125,7 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
         />
       </div>
       <img
-        class="min-height-60vh max-height-60vh"
+        class="min-height-60vh max-height-60vh object-fit-cover"
         src={image.url}
         key={image.url}
       />
