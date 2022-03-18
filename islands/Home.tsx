@@ -1,5 +1,6 @@
 /** @jsx h */
 import { h, useEffect, useState } from "../client_deps.ts";
+import KeyboardListener from "./KeyboardListener.tsx";
 
 interface HomeProps {
   indexProp?: number;
@@ -31,7 +32,7 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
   }, []);
 
   useEffect(() => { // Set the index according to either localStorage or the index prop
-    if (localStorage["index"] && !indexProp) {
+    if (localStorage["index"] && !indexProp && localStorage["index"] != -1) {
       setIndex(parseInt(localStorage["index"]));
     } else if (!localStorage["index"] && indexProp) {
       localStorage["index"] = indexProp.toString();
@@ -153,6 +154,46 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
         />
       </div>
       <h1>{image.votes}</h1>
+
+      <KeyboardListener
+        targetKey="ArrowLeft"
+        callback={() => {
+          if (index > 0) {
+            setIndex(index - 1);
+          }
+        }}
+      />
+
+      <KeyboardListener
+        targetKey="ArrowRight"
+        callback={() => {
+          setIndex(index + 1);
+        }}
+      />
+
+      <KeyboardListener
+        targetKey="ArrowUp"
+        callback={() => {
+          console.log(image.voteValue);
+          if (image.voteValue == 0 || image.voteValue == -1) {
+            setVote(1);
+          } else if (image.voteValue == 1) {
+            setVote(0);
+          }
+        }}
+      />
+
+      <KeyboardListener
+        targetKey="ArrowDown"
+        callback={() => {
+          console.log(image.voteValue);
+          if (image.voteValue == 0 || image.voteValue == 1) {
+            setVote(-1);
+          } else if (image.voteValue == -1) {
+            setVote(0);
+          }
+        }}
+      />
     </div>
   );
 }

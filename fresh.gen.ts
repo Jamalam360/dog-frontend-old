@@ -7,7 +7,8 @@ import * as $1 from "./routes/settings.tsx";
 import * as $2 from "./routes/share.tsx";
 import * as $$0 from "./islands/Home.tsx";
 import * as $$1 from "./islands/InProgress.tsx";
-import * as $$2 from "./islands/RedirectToHome.tsx";
+import * as $$2 from "./islands/KeyboardListener.tsx";
+import * as $$3 from "./islands/RedirectToHome.tsx";
 
 const manifest = {
   routes: {
@@ -18,7 +19,8 @@ const manifest = {
   islands: {
     "./islands/Home.tsx": $$0,
     "./islands/InProgress.tsx": $$1,
-    "./islands/RedirectToHome.tsx": $$2,
+    "./islands/KeyboardListener.tsx": $$2,
+    "./islands/RedirectToHome.tsx": $$3,
   },
   baseUrl: import.meta.url,
 };
