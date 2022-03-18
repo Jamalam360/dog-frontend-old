@@ -3,7 +3,6 @@ import { h, PageProps } from "../client_deps.ts";
 import { HandlerContext } from "../server_deps.ts";
 import Head from "../components/Head.tsx";
 import HomeIsland from "../islands/Home.tsx";
-import Footer from "../components/Footer.tsx";
 
 interface IndexProps {
   index: number | undefined;
@@ -44,7 +43,6 @@ export default function Home({ data }: PageProps<IndexProps>) {
         image={data.image}
       />
       <HomeIsland indexProp={data.index} />
-      <Footer />
     </div>
   );
 }
