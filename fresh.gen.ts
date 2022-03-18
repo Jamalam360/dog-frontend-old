@@ -3,18 +3,22 @@
 // To update this file, run `fresh manifest`.
 
 import * as $0 from "./routes/index.tsx";
-import * as $1 from "./routes/share.tsx";
+import * as $1 from "./routes/settings.tsx";
+import * as $2 from "./routes/share.tsx";
 import * as $$0 from "./islands/Home.tsx";
-import * as $$1 from "./islands/RedirectToHome.tsx";
+import * as $$1 from "./islands/InProgress.tsx";
+import * as $$2 from "./islands/RedirectToHome.tsx";
 
 const manifest = {
   routes: {
     "./routes/index.tsx": $0,
-    "./routes/share.tsx": $1,
+    "./routes/settings.tsx": $1,
+    "./routes/share.tsx": $2,
   },
   islands: {
     "./islands/Home.tsx": $$0,
-    "./islands/RedirectToHome.tsx": $$1,
+    "./islands/InProgress.tsx": $$1,
+    "./islands/RedirectToHome.tsx": $$2,
   },
   baseUrl: import.meta.url,
 };
