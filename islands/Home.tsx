@@ -108,6 +108,7 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
               await navigator.clipboard.writeText(
                 `https://dog.jamalam.tech/share?i=${index}`,
               );
+              alert("Link copied to clipboard");
             }
           }}
         />

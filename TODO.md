@@ -4,7 +4,6 @@
 - Animations
 - Advance on vote
 - Hide vote total before voting
-- Image scaling could possibly be odd in images with certain aspect ratios
 - Touch
 - Keyboard
 - 404 Page
