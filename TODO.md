@@ -5,7 +5,6 @@
 - Advance on vote
 - Hide vote total before voting
 - Touch
-- Keyboard
 - 404 Page
 - _Move as much to server-side as possible_
 
