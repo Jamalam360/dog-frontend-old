@@ -1,6 +1,6 @@
 /** @jsx h */
 import { h, useEffect, useState } from "../client_deps.ts";
-import KeyboardListener from "./KeyboardListener.tsx";
+import { Settings } from "./Settings.tsx";
 
 interface HomeProps {
   indexProp?: number;
@@ -16,9 +16,12 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
   const [snowflake, setSnowflake] = useState("");
   const [index, setIndex] = useState(-1);
   const [image, setImage] = useState({} as Image);
+  const [settings, setSettings] = useState(
+    { advanceOnVote: false } as Settings as Settings,
+  );
   const [vote, setVote] = useState(0);
 
-  useEffect(() => { // Set the snowflake from localStorage, or generate a new one if unset
+  useEffect(() => { // Set the snowflake  and settings from localStorage, or generate new ones if unset
     if (localStorage["snowflake"]) {
       setSnowflake(localStorage["snowflake"]);
     } else {
@@ -28,6 +31,12 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
           setSnowflake(json.snowflake);
         })
       );
+    }
+
+    if (localStorage["settings"]) {
+      setSettings(JSON.parse(localStorage["settings"]));
+    } else {
+      localStorage["settings"] = JSON.stringify(settings);
     }
   }, []);
 
@@ -45,20 +54,29 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
     }
   }, [indexProp]);
 
-  useEffect(() => {
+  useEffect(() => { // Update the image when the vote value changes
     if (snowflake == "" || index == -1) return;
 
-    fetch(
-      `https://dog.jamalam.tech:8002/v0/posts/${index}/vote/${vote}/${snowflake}`,
-    ).then((res) => {
-      res.json().then((json) => {
-        setImage({
-          url: json.url,
-          votes: json.votes,
-          voteValue: json.value,
+    if (image.voteValue != vote) {
+      fetch(
+        `https://dog.jamalam.tech:8002/v0/posts/${index}/vote/${vote}/${snowflake}`,
+      ).then((res) => {
+        res.json().then((json) => {
+          setImage({
+            url: json.url,
+            votes: json.votes,
+            voteValue: json.value,
+          });
+
+          if (settings.advanceOnVote) {
+            setTimeout(
+              () => setIndex(index + 1),
+              settings.hideTotal ? 650 : 350,
+            );
+          }
         });
       });
-    });
+    }
   }, [vote]);
 
   useEffect(() => { // Update the image state when the index or snowflake update
@@ -86,6 +104,12 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
   // Change the style of the button based on whether we have voted yet or not
   const leftStyle = image.voteValue == -1 ? "color-yellow-shadow" : "";
   const rightStyle = image.voteValue == 1 ? "color-yellow-shadow" : "";
+
+  let votes = "?";
+
+  if (!settings.hideTotal || image.voteValue != 0) {
+    votes = image.votes!.toString();
+  }
 
   return (
     <div class="max-width-800px display-flex justify-content-center align-items-center flex-direction-column">
@@ -116,7 +140,8 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
         <i
           class="fa-solid fa-gear font-size-225p pad-horizontal-20px button-hover-animation"
           onClick={(_) => {
-            window.location.href = "https://dog.jamalam.tech/settings";
+            window.location.href = "http://localhost:8000/settings";
+            //"https://dog.jamalam.tech/settings";
           }}
         />
         <i
@@ -153,47 +178,7 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
           }}
         />
       </div>
-      <h1>{image.votes}</h1>
-
-      <KeyboardListener
-        targetKey="ArrowLeft"
-        callback={() => {
-          if (index > 0) {
-            setIndex(index - 1);
-          }
-        }}
-      />
-
-      <KeyboardListener
-        targetKey="ArrowRight"
-        callback={() => {
-          setIndex(index + 1);
-        }}
-      />
-
-      <KeyboardListener
-        targetKey="ArrowUp"
-        callback={() => {
-          console.log(image.voteValue);
-          if (image.voteValue == 0 || image.voteValue == -1) {
-            setVote(1);
-          } else if (image.voteValue == 1) {
-            setVote(0);
-          }
-        }}
-      />
-
-      <KeyboardListener
-        targetKey="ArrowDown"
-        callback={() => {
-          console.log(image.voteValue);
-          if (image.voteValue == 0 || image.voteValue == 1) {
-            setVote(-1);
-          } else if (image.voteValue == -1) {
-            setVote(0);
-          }
-        }}
-      />
+      <h1>{votes}</h1>
     </div>
   );
 }

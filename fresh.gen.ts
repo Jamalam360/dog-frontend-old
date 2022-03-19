@@ -2,25 +2,27 @@
 // This file SHOULD be checked into source version control.
 // To update this file, run `fresh manifest`.
 
-import * as $0 from "./routes/index.tsx";
-import * as $1 from "./routes/settings.tsx";
-import * as $2 from "./routes/share.tsx";
+import * as $0 from "./routes/_404.tsx";
+import * as $1 from "./routes/index.tsx";
+import * as $2 from "./routes/settings.tsx";
+import * as $3 from "./routes/share.tsx";
 import * as $$0 from "./islands/Home.tsx";
 import * as $$1 from "./islands/InProgress.tsx";
-import * as $$2 from "./islands/KeyboardListener.tsx";
-import * as $$3 from "./islands/RedirectToHome.tsx";
+import * as $$2 from "./islands/RedirectToHome.tsx";
+import * as $$3 from "./islands/Settings.tsx";
 
 const manifest = {
   routes: {
-    "./routes/index.tsx": $0,
-    "./routes/settings.tsx": $1,
-    "./routes/share.tsx": $2,
+    "./routes/_404.tsx": $0,
+    "./routes/index.tsx": $1,
+    "./routes/settings.tsx": $2,
+    "./routes/share.tsx": $3,
   },
   islands: {
     "./islands/Home.tsx": $$0,
     "./islands/InProgress.tsx": $$1,
-    "./islands/KeyboardListener.tsx": $$2,
-    "./islands/RedirectToHome.tsx": $$3,
+    "./islands/RedirectToHome.tsx": $$2,
+    "./islands/Settings.tsx": $$3,
   },
   baseUrl: import.meta.url,
 };

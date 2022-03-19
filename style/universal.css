@@ -56,3 +56,5 @@ blockquote p {
 strong {
   color: #16a085;
 }
+
+html, body {margin: 0; height: 100%; overflow: hidden}
