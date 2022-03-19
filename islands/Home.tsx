@@ -140,8 +140,7 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
         <i
           class="fa-solid fa-gear font-size-225p pad-horizontal-20px button-hover-animation"
           onClick={(_) => {
-            window.location.href = "http://localhost:8000/settings";
-            //"https://dog.jamalam.tech/settings";
+            window.location.href = "https://dog.jamalam.tech/settings";
           }}
         />
         <i
