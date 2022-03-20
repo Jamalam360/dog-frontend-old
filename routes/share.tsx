@@ -41,7 +41,7 @@ export default function Home({ data }: PageProps<ShareProps>) {
   if (!data.image && !data.index) {
     <div class="margin-60px-auto max-width-800px display-flex justify-content-center align-items-center flex-direction-column">
       <Head
-        title="dog.jamalam.tech"
+        title="Doogle"
         description="Post not found"
         image=""
       />
@@ -51,7 +51,7 @@ export default function Home({ data }: PageProps<ShareProps>) {
   return (
     <div class="margin-60px-auto max-width-800px display-flex justify-content-center align-items-center flex-direction-column">
       <Head
-        title="dog.jamalam.tech"
+        title="Doogle"
         description="Post at https://dog.jamalam.tech/"
         image={data.image!}
       />

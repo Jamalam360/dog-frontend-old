@@ -10,11 +10,11 @@ export default function Head(
 ) {
   return (
     <JSXHead>
-      <title>dog.jamalam.tech</title>
+      <title>Doogle</title>
       <script src="https://kit.fontawesome.com/df2dc764b4.js" />
       <link rel="stylesheet" href="/packed.css" />
       <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-      <meta property="og:site_name" content="dog.jamalam.tech" />
+      <meta property="og:site_name" content="Doogle" />
       <meta property="og:title" content={title} />
       <meta
         property="og:description"

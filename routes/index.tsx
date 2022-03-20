@@ -38,7 +38,7 @@ export default function Home({ data }: PageProps<IndexProps>) {
   return (
     <div class="display-flex justify-content-center align-items-center flex-direction-column">
       <Head
-        title="dog.jamalam.tech"
+        title="Doogle"
         description="Vote on dogs at https://dog.jamalam.tech/"
         image={data.image}
       />
