@@ -113,7 +113,7 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
 
   return (
     <div class="max-width-800px display-flex justify-content-center align-items-center flex-direction-column">
-      <div class="display-flex flex-direction-row pad-bottom-20px align-items-center">
+      <div class="display-flex flex-direction-row pad-bottom-20px align-items-center pad-vertical-20px">
         <i
           class="fa-solid fa-arrow-left font-size-300p pad-horizontal-20px button-hover-animation"
           onClick={(_) => {
