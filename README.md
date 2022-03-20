@@ -16,3 +16,5 @@ adding, removing, or moving an island in the `islands` directory, run:
 ```
 fresh manifest
 ```
+
+[Colour Palette](https://coolors.co/2e2f2f-424b54-1599a2-1ccad8-38dae5)
