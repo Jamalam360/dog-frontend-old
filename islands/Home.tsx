@@ -101,6 +101,10 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
     localStorage["index"] = index.toString();
   }, [index]);
 
+  useEffect(() => {
+    setVote(image.voteValue!);
+  }, [image]);
+
   if (index == -1 || snowflake == "" || !image.url) return <div />; // Wait until our useEffect's have run
 
   // Change the style of the button based on whether we have voted yet or not
