@@ -1,6 +1,7 @@
 /** @jsx h */
-import { h, useEffect, useState } from "../client_deps.ts";
+import { h, RefCallback, useEffect, useState } from "../client_deps.ts";
 import { Settings } from "./Settings.tsx";
+import SwipeContainer from "https://esm.sh/preact-swipe-container";
 
 interface HomeProps {
   indexProp?: number;
@@ -112,72 +113,79 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
   }
 
   return (
-    <div class="max-width-800px display-flex justify-content-center align-items-center flex-direction-column">
-      <div class="display-flex flex-direction-row pad-bottom-20px align-items-center pad-vertical-20px">
-        <i
-          class="fa-solid fa-arrow-left font-size-300p pad-horizontal-20px button-hover-animation"
-          onClick={(_) => {
-            if (index > 0) {
-              setIndex(index - 1);
-            }
-          }}
+    <SwipeContainer
+      currentPage={index}
+      onChange={(n: number) => {
+        console.log(n);
+      }}
+    >
+      <div class="max-width-800px display-flex justify-content-center align-items-center flex-direction-column">
+        <div class="display-flex flex-direction-row pad-bottom-20px align-items-center pad-vertical-20px">
+          <i
+            class="fa-solid fa-arrow-left font-size-300p pad-horizontal-20px button-hover-animation"
+            onClick={(_) => {
+              if (index > 0) {
+                setIndex(index - 1);
+              }
+            }}
+          />
+          <i
+            class="fa-solid fa-share font-size-225p pad-horizontal-20px button-hover-animation"
+            onClick={async (_) => {
+              if (typeof navigator.share !== "undefined") {
+                await navigator.share({
+                  url: `https://dog.jamalam.tech/share?i=${index}`,
+                });
+              } else if (typeof navigator.clipboard.writeText !== "undefined") {
+                await navigator.clipboard.writeText(
+                  `https://dog.jamalam.tech/share?i=${index}`,
+                );
+                alert("Link copied to clipboard");
+              }
+            }}
+          />
+          <i
+            class="fa-solid fa-gear font-size-225p pad-horizontal-20px button-hover-animation"
+            onClick={(_) => {
+              window.location.href = "https://dog.jamalam.tech/settings";
+            }}
+          />
+          <i
+            class="fa-solid fa-arrow-right font-size-300p pad-horizontal-20px button-hover-animation"
+            onClick={(_) => {
+              setIndex(index + 1);
+            }}
+          />
+        </div>
+        <img
+          class="min-height-60vh max-height-60vh object-fit-cover"
+          src={image.url}
+          key={image.url}
         />
-        <i
-          class="fa-solid fa-share font-size-225p pad-horizontal-20px button-hover-animation"
-          onClick={async (_) => {
-            if (typeof navigator.share !== "undefined") {
-              await navigator.share({
-                url: `https://dog.jamalam.tech/share?i=${index}`,
-              });
-            } else if (typeof navigator.clipboard.writeText !== "undefined") {
-              await navigator.clipboard.writeText(
-                `https://dog.jamalam.tech/share?i=${index}`,
-              );
-              alert("Link copied to clipboard");
-            }
-          }}
-        />
-        <i
-          class="fa-solid fa-gear font-size-225p pad-horizontal-20px button-hover-animation"
-          onClick={(_) => {
-            window.location.href = "https://dog.jamalam.tech/settings";
-          }}
-        />
-        <i
-          class="fa-solid fa-arrow-right font-size-300p pad-horizontal-20px button-hover-animation"
-          onClick={(_) => {
-            setIndex(index + 1);
-          }}
-        />
+        <div class="display-flex flex-direction-row pad-vertical-20px">
+          <i
+            class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation ${leftStyle}`}
+            onClick={(_) => {
+              if (image.voteValue == 0 || image.voteValue == 1) {
+                setVote(-1);
+              } else if (image.voteValue == -1) {
+                setVote(0);
+              }
+            }}
+          />
+          <i
+            class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation ${rightStyle}`}
+            onClick={(_) => {
+              if (image.voteValue == 0 || image.voteValue == -1) {
+                setVote(1);
+              } else if (image.voteValue == 1) {
+                setVote(0);
+              }
+            }}
+          />
+        </div>
+        <h1>{votes}</h1>
       </div>
-      <img
-        class="min-height-60vh max-height-60vh object-fit-cover"
-        src={image.url}
-        key={image.url}
-      />
-      <div class="display-flex flex-direction-row pad-vertical-20px">
-        <i
-          class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation ${leftStyle}`}
-          onClick={(_) => {
-            if (image.voteValue == 0 || image.voteValue == 1) {
-              setVote(-1);
-            } else if (image.voteValue == -1) {
-              setVote(0);
-            }
-          }}
-        />
-        <i
-          class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation ${rightStyle}`}
-          onClick={(_) => {
-            if (image.voteValue == 0 || image.voteValue == -1) {
-              setVote(1);
-            } else if (image.voteValue == 1) {
-              setVote(0);
-            }
-          }}
-        />
-      </div>
-      <h1>{votes}</h1>
-    </div>
+    </SwipeContainer>
   );
 }
