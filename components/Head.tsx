@@ -13,7 +13,7 @@ export default function Head(
       <title>Doogle</title>
       <script src="https://kit.fontawesome.com/df2dc764b4.js" />
       <link rel="stylesheet" href="/packed.css" />
-      <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       <meta property="og:site_name" content="Doogle" />
       <meta property="og:title" content={title} />
       <meta
