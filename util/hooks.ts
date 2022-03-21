@@ -123,26 +123,36 @@ export function useIndex(
   property: number | undefined,
   snowflake: string,
 ): [number, StateUpdater<number>] {
-  const [s, set] = useLocalStorageBackedState<number>(
-    "index",
-    {
-      defaultValue: 0,
-      preferredValue: property,
-      type: "number",
-    },
-  ) as [number, StateUpdater<number>];
+  // const [s, set] = useLocalStorageBackedState<number>(
+  //   "index",
+  //   {
+  //     defaultValue: 0,
+  //     preferredValue: property,
+  //     type: "number",
+  //   },
+  // ) as [number, StateUpdater<number>];
+
+  const [s, set] = useState(0);
+
+  if (property) {
+    set(property);
+  }
 
   useEffect(() => {
+    fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}`).then((res) =>
+      res.json().then((json) => {
+        console.log("Settings index to " + json.index);
+        if (!property) {
+          set(json.index);
+        }
+      })
+    );
+  }, [snowflake]);
+
+  useEffect(() => {
+    console.log("Fetching to set index to " + s);
     fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}/setIndex/${s}`);
   }, [s]);
-
-  fetch("https://dog.jamalam.tech:8002/v0/user/:id").then((res) =>
-    res.json().then((json) => {
-      if (!property) {
-        set(json.index);
-      }
-    })
-  );
 
   return [s, set];
 }
