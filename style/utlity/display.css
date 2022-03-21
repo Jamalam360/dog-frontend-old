@@ -25,3 +25,7 @@
 .display-block {
   display: block;
 }
+
+.border-radius-10px {
+  border-radius: 10px;
+}
