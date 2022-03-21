@@ -20,6 +20,8 @@ export default function Settings() {
     }
   }, [snowflake]);
 
+  if (!settings) return <div />;
+
   return (
     <div class="display-flex flex-direction-column align-items-center justify-content-center">
       <h1>
