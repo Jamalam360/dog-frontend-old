@@ -48,20 +48,6 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
     }
   }, []);
 
-  // useEffect(() => { // Set the index according to either localStorage or the index prop
-  //   if (localStorage["index"] && !indexProp && localStorage["index"] != -1) {
-  //     setIndex(parseInt(localStorage["index"]));
-  //   } else if (!localStorage["index"] && indexProp) {
-  //     localStorage["index"] = indexProp.toString();
-  //     setIndex(indexProp);
-  //   } else if (localStorage["index"] && indexProp) {
-  //     localStorage["index"] = indexProp.toString();
-  //     setIndex(indexProp);
-  //   } else {
-  //     setIndex(0);
-  //   }
-  // }, [indexProp]);
-
   useEffect(() => { // Update the image when the vote value changes
     if (snowflake == "" || index == -1) return;
 
