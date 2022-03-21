@@ -5,6 +5,7 @@ import {
   useHorizontalSwipeListener,
   useLocalStorageBackedState,
 } from "../util/hooks.ts";
+import { share } from "../util/share.ts";
 
 import Image from "../components/Image.tsx";
 
@@ -123,16 +124,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
         <i
           class="fa-solid fa-share font-size-225p pad-horizontal-20px button-hover-animation"
           onClick={async (_) => {
-            if (typeof navigator.share !== "undefined") {
-              await navigator.share({
-                url: `https://dog.jamalam.tech/share?i=${index}`,
-              });
-            } else if (typeof navigator.clipboard.writeText !== "undefined") {
-              await navigator.clipboard.writeText(
-                `https://dog.jamalam.tech/share?i=${index}`,
-              );
-              alert("Link copied to clipboard");
-            }
+            await share(`https://dog.jamalam.tech/share?i=${index}`);
           }}
         />
         <i
