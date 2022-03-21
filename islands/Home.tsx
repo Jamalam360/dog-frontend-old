@@ -97,17 +97,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
     setVote(image.voteValue!);
   }, [image]);
 
-  if (index == -1 || snowflake == "" || !image.url) return <div />; // Wait until our useEffect's have run
-
-  // Change the style of the button based on whether we have voted yet or not
-  const leftStyle = image.voteValue == -1 ? "color-yellow-shadow" : "";
-  const rightStyle = image.voteValue == 1 ? "color-yellow-shadow" : "";
-
-  let votes = "?";
-
-  if (!settings!.hideTotal || image.voteValue != 0) {
-    votes = image.votes!.toString();
-  }
+  if (index == -1 || snowflake == "" || !image.url) return <div />; // Wait until the useEffect's have run
 
   const [touchStart, touchMove, touchEnd] = useHorizontalSwipeListener(
     () => setIndex(index! + 1),
@@ -164,7 +154,9 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
       />
       <div class="display-flex flex-direction-row pad-vertical-20px">
         <i
-          class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation ${leftStyle}`}
+          class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation ${
+            image.voteValue == -1 ? "color-yellow-shadow" : ""
+          }`}
           onClick={(_) => {
             if (image.voteValue == 0 || image.voteValue == 1) {
               setVote(-1);
@@ -174,7 +166,9 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
           }}
         />
         <i
-          class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation ${rightStyle}`}
+          class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation ${
+            image.voteValue == 1 ? "color-yellow-shadow" : ""
+          }`}
           onClick={(_) => {
             if (image.voteValue == 0 || image.voteValue == -1) {
               setVote(1);
@@ -184,7 +178,9 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
           }}
         />
       </div>
-      <h1>{votes}</h1>
+      <h1>
+        {(!settings?.hideTotal || image.voteValue != 0) ? image.votes : "?"}
+      </h1>
     </div>
   );
 }
