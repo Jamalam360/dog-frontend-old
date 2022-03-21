@@ -95,7 +95,7 @@ export function useSnowflake(): [string, StateUpdater<string>] {
     },
   ) as [string, StateUpdater<string>];
 
-  useEffect(() => { // Set the snowflake  and settings from localStorage, or generate new ones if unset
+  useEffect(() => { // Generate a new one if unset
     if (s == "unset") {
       fetch("https://dog.jamalam.tech:8002/v0/user/new").then((res) =>
         res.json().then((json) => {

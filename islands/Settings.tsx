@@ -16,7 +16,11 @@ export default function Settings() {
     if (snowflake != "unset") {
       fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}`).then((
         res,
-      ) => res.json().then((json) => setLoginCode(json.loginCode)));
+      ) =>
+        res.json().then((json) => {
+          setLoginCode(json.loginCode);
+        })
+      );
     }
   }, [snowflake]);
 
@@ -66,11 +70,34 @@ export default function Settings() {
       <button
         onClick={(_) => {
           const code = prompt("Enter your login code");
+          console.log(code);
+
+          if (!code) {
+            alert("Please enter a code");
+            return;
+          }
+
+          if (code?.length != 6) {
+            alert("Invalid code");
+            return;
+          }
+
           fetch(
-            `https://dog.jamalam.tech:8002/v0/user/login/${code}`,
+            `https://dog.jamalam.tech:8002/v0/user/login/${
+              code?.toUpperCase()
+            }`,
           ).then((
             res,
-          ) => res.json().then((json) => setSnowflake(snowflake)));
+          ) => {
+            if (res.status == 404) {
+              alert("Invalid code");
+              return;
+            }
+
+            res.json().then((json) => {
+              setSnowflake(json.snowflake);
+            });
+          });
         }}
       >
         Enter Login Code
