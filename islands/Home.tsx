@@ -100,16 +100,16 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
 
   if (index == -1 || snowflake == "" || !image.url) return <div />; // Wait until the useEffect's have run
 
-  const [touchStart, touchMove, touchEnd] = useHorizontalSwipeListener(
+  const [onTouchStart, onTouchMove, onTouchEnd] = useHorizontalSwipeListener(
     () => setIndex(index! + 1),
     () => setIndex(index! - 1),
   );
 
   return (
     <div
-      onTouchStart={touchStart}
-      onTouchMove={touchMove}
-      onTouchEnd={touchEnd}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
       class="max-width-800px display-flex justify-content-center align-items-center flex-direction-column"
     >
       <div class="display-flex flex-direction-row pad-bottom-20px align-items-center pad-vertical-20px">
