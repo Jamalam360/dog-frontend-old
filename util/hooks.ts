@@ -28,3 +28,41 @@ export function useLocalStorageBackedState<T>(
     return useState(undefined as T | undefined);
   }
 }
+
+export function useHorizontalSwipeListener(
+  onLeft: () => void,
+  onRight: () => void,
+): [
+  (e: TouchEvent) => void,
+  (e: TouchEvent) => void,
+  () => void,
+] {
+  const [touchStart, setTouchStart] = useState(undefined as undefined | number);
+  const [touchEnd, setTouchEnd] = useState(undefined as undefined | number);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: TouchEvent) => {
+    setTouchEnd(undefined);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: TouchEvent) =>
+    setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      onLeft();
+    }
+
+    if (isRightSwipe) {
+      onRight();
+    }
+  };
+
+  return [onTouchStart, onTouchMove, onTouchEnd];
+}

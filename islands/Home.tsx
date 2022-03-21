@@ -1,13 +1,12 @@
 /** @jsx h */
 import { h, useEffect, useState } from "../client_deps.ts";
 import { Settings } from "./Settings.tsx";
-import { useLocalStorageBackedState } from "../util/hooks.ts";
+import {
+  useHorizontalSwipeListener,
+  useLocalStorageBackedState,
+} from "../util/hooks.ts";
 
-import SwipeListener from "../components/SwipeListener.ts";
-
-interface HomeProps {
-  indexProp?: number;
-}
+import Image from "../components/Image.tsx";
 
 interface Image {
   url?: string;
@@ -15,7 +14,7 @@ interface Image {
   voteValue?: number;
 }
 
-export default function RedirectToHome({ indexProp }: HomeProps) {
+export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
   const [snowflake, setSnowflake] = useState("");
   const [image, setImage] = useState({} as Image);
   const [vote, setVote] = useState(0);
@@ -105,7 +104,7 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
     votes = image.votes!.toString();
   }
 
-  const [touchStart, touchMove, touchEnd] = SwipeListener(
+  const [touchStart, touchMove, touchEnd] = useHorizontalSwipeListener(
     () => setIndex(index! + 1),
     () => setIndex(index! - 1),
   );
@@ -154,10 +153,9 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
           }}
         />
       </div>
-      <img
+      <Image
+        source={image.url}
         class="min-height-60vh max-height-60vh object-fit-cover"
-        src={image.url}
-        key={image.url}
       />
       <div class="display-flex flex-direction-row pad-vertical-20px">
         <i
