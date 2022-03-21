@@ -15,7 +15,6 @@ interface Image {
 }
 
 export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
-  const [snowflake, setSnowflake] = useState("");
   const [image, setImage] = useState({} as Image);
   const [vote, setVote] = useState(0);
 
@@ -31,16 +30,22 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
     {
       defaultValue: 0,
       preferredValue: indexProp,
+      type: "number",
+    },
+  );
+
+  const [snowflake, setSnowflake] = useLocalStorageBackedState<string>(
+    "snowflake",
+    {
+      defaultValue: "unset",
+      type: "string",
     },
   );
 
   useEffect(() => { // Set the snowflake  and settings from localStorage, or generate new ones if unset
-    if (localStorage["snowflake"]) {
-      setSnowflake(localStorage["snowflake"]);
-    } else {
+    if (snowflake == "unset") {
       fetch("https://dog.jamalam.tech:8002/v0/user/new").then((res) =>
         res.json().then((json) => {
-          localStorage["snowflake"] = json.snowflake;
           setSnowflake(json.snowflake);
         })
       );

@@ -2,16 +2,30 @@ import { StateUpdater, useEffect, useState } from "../client_deps.ts";
 
 export function useLocalStorageBackedState<T>(
   key: string,
-  options: { defaultValue?: T; preferredValue?: T },
+  options?: {
+    defaultValue?: T;
+    preferredValue?: T;
+    type?: "number" | "json" | "string";
+  },
 ): [T | undefined, StateUpdater<T | undefined>] {
   if (typeof localStorage !== "undefined") {
     let value;
 
-    if (options.preferredValue) {
+    if (!options?.type) {
+      options!.type = "json";
+    }
+
+    if (options?.preferredValue) {
       value = options.preferredValue;
     } else if (localStorage[key]) {
-      value = JSON.parse(localStorage[key]) as T;
-    } else if (options.defaultValue) {
+      if (options?.type == "json") {
+        value = JSON.parse(localStorage[key]) as T;
+      } else if (options?.type == "number") {
+        value = parseInt(localStorage[key]);
+      } else if (options?.type == "string") {
+        value = localStorage[key];
+      }
+    } else if (options?.defaultValue) {
       value = options.defaultValue;
     } else {
       value = undefined;
@@ -20,7 +34,11 @@ export function useLocalStorageBackedState<T>(
     const [state, setState] = useState(value);
 
     useEffect(() => {
-      localStorage[key] = JSON.stringify(state);
+      if (options?.type == "json") {
+        localStorage[key] = JSON.stringify(state);
+      } else {
+        localStorage[key] = state;
+      }
     }, [state]);
 
     return [state, setState];
