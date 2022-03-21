@@ -143,6 +143,9 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
       <Image
         source={image.url}
         class="min-height-60vh max-height-60vh object-fit-cover"
+        onDblClick={(_) => {
+          window.open(image.url, "_blank")?.focus();
+        }}
       />
       <div class="display-flex flex-direction-row pad-vertical-20px">
         <i

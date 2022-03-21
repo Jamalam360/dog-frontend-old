@@ -10,7 +10,7 @@ export default function Image(
 ) {
   return (
     <img
-      class={props.class}
+      {...props}
       src={props.source}
       key={props.source}
     />

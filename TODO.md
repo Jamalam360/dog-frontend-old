@@ -2,6 +2,7 @@
 
 - Animations
 - Login
+- Double tap image to open
 - _Move as much to server-side as possible_
 
 # Backend
