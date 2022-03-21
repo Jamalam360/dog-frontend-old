@@ -1,6 +1,7 @@
 /** @jsx h */
 import { h, useEffect, useState } from "../client_deps.ts";
 import { Settings } from "./Settings.tsx";
+import { useLocalStorageBackedState } from "../util/hooks.ts";
 
 import SwipeListener from "../components/SwipeListener.ts";
 
@@ -16,12 +17,23 @@ interface Image {
 
 export default function RedirectToHome({ indexProp }: HomeProps) {
   const [snowflake, setSnowflake] = useState("");
-  const [index, setIndex] = useState(-1);
   const [image, setImage] = useState({} as Image);
-  const [settings, setSettings] = useState(
-    { advanceOnVote: false } as Settings as Settings,
-  );
   const [vote, setVote] = useState(0);
+
+  const [settings, setSettings] = useLocalStorageBackedState<Settings>(
+    "settings",
+    {
+      defaultValue: { advanceOnVote: false, hideTotal: false },
+    },
+  );
+
+  const [index, setIndex] = useLocalStorageBackedState<number>(
+    "index",
+    {
+      defaultValue: 0,
+      preferredValue: indexProp,
+    },
+  );
 
   useEffect(() => { // Set the snowflake  and settings from localStorage, or generate new ones if unset
     if (localStorage["snowflake"]) {
@@ -33,12 +45,6 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
           setSnowflake(json.snowflake);
         })
       );
-    }
-
-    if (localStorage["settings"]) {
-      setSettings(JSON.parse(localStorage["settings"]));
-    } else {
-      localStorage["settings"] = JSON.stringify(settings);
     }
   }, []);
 
@@ -70,10 +76,10 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
             voteValue: json.value,
           });
 
-          if (settings.advanceOnVote) {
+          if (settings!.advanceOnVote) {
             setTimeout(
-              () => setIndex(index + 1),
-              settings.hideTotal ? 650 : 350,
+              () => setIndex(index! + 1),
+              settings!.hideTotal ? 650 : 350,
             );
           }
         });
@@ -97,10 +103,6 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
     );
   }, [index, snowflake]);
 
-  useEffect(() => { // Update the index in localStorage when the index changes
-    localStorage["index"] = index.toString();
-  }, [index]);
-
   useEffect(() => {
     setVote(image.voteValue!);
   }, [image]);
@@ -113,13 +115,13 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
 
   let votes = "?";
 
-  if (!settings.hideTotal || image.voteValue != 0) {
+  if (!settings!.hideTotal || image.voteValue != 0) {
     votes = image.votes!.toString();
   }
 
   const [touchStart, touchMove, touchEnd] = SwipeListener(
-    () => setIndex(index + 1),
-    () => setIndex(index - 1),
+    () => setIndex(index! + 1),
+    () => setIndex(index! - 1),
   );
 
   return (
@@ -133,8 +135,8 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
         <i
           class="fa-solid fa-arrow-left font-size-300p pad-horizontal-20px button-hover-animation"
           onClick={(_) => {
-            if (index > 0) {
-              setIndex(index - 1);
+            if (index! > 0) {
+              setIndex(index! - 1);
             }
           }}
         />
@@ -162,7 +164,7 @@ export default function RedirectToHome({ indexProp }: HomeProps) {
         <i
           class="fa-solid fa-arrow-right font-size-300p pad-horizontal-20px button-hover-animation"
           onClick={(_) => {
-            setIndex(index + 1);
+            setIndex(index! + 1);
           }}
         />
       </div>

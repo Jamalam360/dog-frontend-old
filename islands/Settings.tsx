@@ -1,5 +1,6 @@
 /** @jsx h */
 import { h, useEffect, useState } from "../client_deps.ts";
+import { useLocalStorageBackedState } from "../util/hooks.ts";
 
 export interface Settings {
   advanceOnVote: boolean;
@@ -7,24 +8,15 @@ export interface Settings {
 }
 
 export default function Settings() {
-  const [settings, setSettings] = useState(
-    { advanceOnVote: false, hideTotal: true } as Settings,
+  const [settings, setSettings] = useLocalStorageBackedState<Settings>(
+    "settings",
+    {
+      defaultValue: { advanceOnVote: false, hideTotal: false },
+    },
   );
 
-  useEffect(() => { // Set the settings from localStorage, or set a new one if unset
-    if (localStorage["settings"]) {
-      setSettings(JSON.parse(localStorage["settings"]));
-    } else {
-      localStorage["settings"] = JSON.stringify(settings);
-    }
-  }, []);
-
-  useEffect(() => { // Update settings in localStorage every time they change
-    localStorage["settings"] = JSON.stringify(settings);
-  }, [settings]);
-
-  const advanceOnVoteStyle = settings.advanceOnVote ? "on" : "off";
-  const hideTotalStyle = settings.hideTotal ? "on" : "off";
+  const advanceOnVoteStyle = settings!.advanceOnVote ? "on" : "off";
+  const hideTotalStyle = settings!.hideTotal ? "on" : "off";
 
   return (
     <div class="display-flex flex-direction-column align-items-center justify-content-center">
@@ -37,8 +29,8 @@ export default function Settings() {
           class={`fa-solid fa-toggle-${advanceOnVoteStyle} font-size-225p button-hover-animation pad-horizontal-20px`}
           onClick={(_) => {
             setSettings({
-              ...settings,
-              advanceOnVote: !settings.advanceOnVote,
+              hideTotal: settings!.hideTotal,
+              advanceOnVote: !settings!.advanceOnVote,
             });
           }}
         />
@@ -51,8 +43,8 @@ export default function Settings() {
           class={`fa-solid fa-toggle-${hideTotalStyle} font-size-225p button-hover-animation pad-horizontal-20px`}
           onClick={(_) => {
             setSettings({
-              ...settings,
-              hideTotal: !settings.hideTotal,
+              hideTotal: !settings!.hideTotal,
+              advanceOnVote: settings!.advanceOnVote,
             });
           }}
         />
