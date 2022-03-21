@@ -1,9 +1,11 @@
 /** @jsx h */
 import { h, useEffect, useState } from "../client_deps.ts";
-import { Settings } from "./Settings.tsx";
 import {
   useHorizontalSwipeListener,
+  useIndex,
   useLocalStorageBackedState,
+  useSettings,
+  useSnowflake,
 } from "../util/hooks.ts";
 import { share } from "../util/share.ts";
 
@@ -18,40 +20,19 @@ interface Image {
 export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
   const [image, setImage] = useState({} as Image);
   const [vote, setVote] = useState(0);
+  const [settings, _1] = useSettings();
+  const [snowflake, _2] = useSnowflake();
 
-  const [settings, _setSettings] = useLocalStorageBackedState<Settings>(
-    "settings",
-    {
-      defaultValue: { advanceOnVote: false, hideTotal: false },
-    },
-  );
+  // const [index, setIndex] = useLocalStorageBackedState<number>(
+  //   "index",
+  //   {
+  //     defaultValue: 0,
+  //     preferredValue: indexProp,
+  //     type: "number",
+  //   },
+  // );
 
-  const [index, setIndex] = useLocalStorageBackedState<number>(
-    "index",
-    {
-      defaultValue: 0,
-      preferredValue: indexProp,
-      type: "number",
-    },
-  );
-
-  const [snowflake, setSnowflake] = useLocalStorageBackedState<string>(
-    "snowflake",
-    {
-      defaultValue: "unset",
-      type: "string",
-    },
-  );
-
-  useEffect(() => { // Set the snowflake  and settings from localStorage, or generate new ones if unset
-    if (snowflake == "unset") {
-      fetch("https://dog.jamalam.tech:8002/v0/user/new").then((res) =>
-        res.json().then((json) => {
-          setSnowflake(json.snowflake);
-        })
-      );
-    }
-  }, []);
+  const [index, setIndex] = useIndex(indexProp, snowflake);
 
   useEffect(() => { // Update the image when the vote value changes
     if (snowflake == "" || index == -1) return;

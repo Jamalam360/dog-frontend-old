@@ -1,6 +1,6 @@
 /** @jsx h */
-import { h } from "../client_deps.ts";
-import { useLocalStorageBackedState } from "../util/hooks.ts";
+import { h, useEffect, useState } from "../client_deps.ts";
+import { useSettings, useSnowflake } from "../util/hooks.ts";
 
 export interface Settings {
   advanceOnVote: boolean;
@@ -8,12 +8,17 @@ export interface Settings {
 }
 
 export default function Settings() {
-  const [settings, setSettings] = useLocalStorageBackedState<Settings>(
-    "settings",
-    {
-      defaultValue: { advanceOnVote: false, hideTotal: false },
-    },
-  );
+  const [settings, setSettings] = useSettings();
+  const [snowflake, setSnowflake] = useSnowflake();
+  const [loginCode, setLoginCode] = useState("");
+
+  useEffect(() => {
+    if (snowflake != "unset") {
+      fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}`).then((
+        res,
+      ) => res.json().then((json) => setLoginCode(json.loginCode)));
+    }
+  }, [snowflake]);
 
   return (
     <div class="display-flex flex-direction-column align-items-center justify-content-center">
@@ -54,6 +59,22 @@ export default function Settings() {
         <h2>Hide total</h2>
       </div>
       <p>Hide the total number of votes before voting, to prevent bias</p>
+
+      <h2>Login</h2>
+      <button
+        onClick={(_) => {
+          const code = prompt("Enter your login code");
+          fetch(
+            `https://dog.jamalam.tech:8002/v0/user/login/${code}`,
+          ).then((
+            res,
+          ) => res.json().then((json) => setSnowflake(snowflake)));
+        }}
+      >
+        Enter Login Code
+      </button>
+      <h3>{`Your login code is ${loginCode}`}</h3>
+      <p>Login codes can be used to sync your progress across devices</p>
     </div>
   );
 }

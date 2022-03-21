@@ -1,4 +1,5 @@
 import { StateUpdater, useEffect, useState } from "../client_deps.ts";
+import { Settings } from "../islands/Settings.tsx";
 
 export function useLocalStorageBackedState<T>(
   key: string,
@@ -83,4 +84,65 @@ export function useHorizontalSwipeListener(
   };
 
   return [onTouchStart, onTouchMove, onTouchEnd];
+}
+
+export function useSnowflake(): [string, StateUpdater<string>] {
+  const [s, set] = useLocalStorageBackedState<string>(
+    "snowflake",
+    {
+      defaultValue: "unset",
+      type: "string",
+    },
+  ) as [string, StateUpdater<string>];
+
+  useEffect(() => { // Set the snowflake  and settings from localStorage, or generate new ones if unset
+    if (s == "unset") {
+      fetch("https://dog.jamalam.tech:8002/v0/user/new").then((res) =>
+        res.json().then((json) => {
+          set(json.snowflake);
+        })
+      );
+    }
+  }, []);
+
+  return [s, set];
+}
+
+export function useSettings(): [Settings, StateUpdater<Settings>] {
+  const [s, set] = useLocalStorageBackedState<Settings>(
+    "settings",
+    {
+      defaultValue: { advanceOnVote: false, hideTotal: false },
+    },
+  ) as [Settings, StateUpdater<Settings>];
+
+  return [s, set];
+}
+
+export function useIndex(
+  property: number | undefined,
+  snowflake: string,
+): [number, StateUpdater<number>] {
+  const [s, set] = useLocalStorageBackedState<number>(
+    "index",
+    {
+      defaultValue: 0,
+      preferredValue: property,
+      type: "number",
+    },
+  ) as [number, StateUpdater<number>];
+
+  useEffect(() => {
+    fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}/setIndex/${s}`);
+  }, [s]);
+
+  fetch("https://dog.jamalam.tech:8002/v0/user/:id").then((res) =>
+    res.json().then((json) => {
+      if (!property) {
+        set(json.index);
+      }
+    })
+  );
+
+  return [s, set];
 }
