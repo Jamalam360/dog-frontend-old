@@ -11,7 +11,10 @@ export default function Settings() {
         description="Vote on dogs at https://dog.jamalam.tech/"
         image=""
       />
-      <SettingsIsland />
+      <SettingsIsland
+        deploymentId={Deno.env.get("DENO_DEPLOYMENT_ID")!}
+        region={Deno.env.get("DENO_REGION")!}
+      />
     </div>
   );
 }

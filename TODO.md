@@ -2,6 +2,7 @@
 
 - Animations
 - Login
+- Fix lighthouse issues
 - _Move as much to server-side as possible_
 
 # Backend

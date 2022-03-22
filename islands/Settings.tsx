@@ -7,7 +7,9 @@ export interface Settings {
   hideTotal: boolean;
 }
 
-export default function Settings() {
+export default function Settings(
+  { region, deploymentId }: { region: string; deploymentId: string },
+) {
   const [settings, setSettings] = useSettings();
   const [snowflake, setSnowflake] = useSnowflake();
   const [loginCode, setLoginCode] = useState("");
@@ -31,6 +33,11 @@ export default function Settings() {
       <h1>
         <a href="/">Back</a>
       </h1>
+
+      <p>
+        <a href="https://github.com/dog-jamalam-tech/frontend">Source</a>{" "}
+        - Deployment Region: {region} - Deployment ID: {deploymentId}
+      </p>
 
       <div class="display-flex flex-direction-row align-items-center">
         <i

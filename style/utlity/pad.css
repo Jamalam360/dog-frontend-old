@@ -2,6 +2,11 @@
   padding-bottom: 20px;
 }
 
+.pad-horizontal-10px {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .pad-horizontal-20px {
   padding-left: 20px;
   padding-right: 20px;
