@@ -112,6 +112,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
       </div>
       <Image
         source={image.url}
+        alt="Image of Dog"
         class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px"
         onDblClick={(_) => {
           window.open(image.url, "_blank")?.focus();
