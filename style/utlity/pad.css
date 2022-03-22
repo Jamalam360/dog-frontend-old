@@ -17,6 +17,11 @@
   padding-right: 30px;
 }
 
+.pad-vertical-5px {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 .pad-vertical-20px {
   padding-top: 20px;
   padding-bottom: 20px;

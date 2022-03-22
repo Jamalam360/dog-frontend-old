@@ -29,54 +29,60 @@ export default function Settings(
   if (!settings) return <div />;
 
   return (
-    <div class="display-flex flex-direction-column align-items-center justify-content-center">
-      <h1>
+    <div class="display-flex flex-direction-column align-items-center justify-content-center margin-top-6px">
+      <h1 class="margin-top-6px">
         <a href="/">Back</a>
       </h1>
 
-      <p>
+      <p class="text-align-center margin-top-6px">
         <a href="https://github.com/dog-jamalam-tech/frontend">Source</a>
-      </p>
-      <p>
+        <br />
         Deployment Region: {region} - Deployment ID: {deploymentId}
       </p>
 
-      <div class="display-flex flex-direction-row align-items-center">
+      <div
+        class="display-flex flex-direction-row align-items-center button-hover-animation unselectable cursor-pointer margin-top-6px"
+        onClick={(_) => {
+          setSettings({
+            hideTotal: settings!.hideTotal,
+            advanceOnVote: !settings!.advanceOnVote,
+          });
+        }}
+      >
         <i
           class={`fa-solid fa-toggle-${
             settings!.advanceOnVote
               ? "on"
               : "off"
-          } font-size-225p button-hover-animation pad-horizontal-20px`}
-          onClick={(_) => {
-            setSettings({
-              hideTotal: settings!.hideTotal,
-              advanceOnVote: !settings!.advanceOnVote,
-            });
-          }}
+          } font-size-225p pad-horizontal-20px`}
         />
         <h2>Advance on Vote</h2>
       </div>
-      <p>Move on to the next image after voting</p>
+      <p class="margin-top-6px">Move on to the next image after voting</p>
 
-      <div class="display-flex flex-direction-row align-items-center">
+      <div
+        class="display-flex flex-direction-row align-items-center button-hover-animation unselectable cursor-pointer margin-top-6px"
+        onClick={(_) => {
+          setSettings({
+            hideTotal: !settings!.hideTotal,
+            advanceOnVote: settings!.advanceOnVote,
+          });
+        }}
+      >
         <i
           class={`fa-solid fa-toggle-${
             settings!.hideTotal ? "on" : "off"
           } font-size-225p button-hover-animation pad-horizontal-20px`}
-          onClick={(_) => {
-            setSettings({
-              hideTotal: !settings!.hideTotal,
-              advanceOnVote: settings!.advanceOnVote,
-            });
-          }}
         />
         <h2>Hide total</h2>
       </div>
-      <p>Hide the total number of votes before voting, to prevent bias</p>
+      <p class="margin-top-6px">
+        Hide the total number of votes before voting, to prevent bias
+      </p>
 
-      <h2>Login</h2>
+      <h2 class="margin-top-6px">Login</h2>
       <button
+        class="margin-top-6px"
         onClick={(_) => {
           const code = prompt("Enter your login code");
           console.log(code);
@@ -111,8 +117,10 @@ export default function Settings(
       >
         Enter Login Code
       </button>
-      <h3>{`Your login code is ${loginCode}`}</h3>
-      <p>Login codes can be used to sync your progress across devices</p>
+      <h3 class="margin-top-6px">{`Your login code is ${loginCode}`}</h3>
+      <p class="margin-top-6px">
+        Login codes can be used to sync your progress across devices
+      </p>
     </div>
   );
 }
