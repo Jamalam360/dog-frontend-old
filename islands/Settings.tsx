@@ -35,8 +35,10 @@ export default function Settings(
       </h1>
 
       <p>
-        <a href="https://github.com/dog-jamalam-tech/frontend">Source</a>{" "}
-        - Deployment Region: {region} - Deployment ID: {deploymentId}
+        <a href="https://github.com/dog-jamalam-tech/frontend">Source</a>
+      </p>
+      <p>
+        Deployment Region: {region} - Deployment ID: {deploymentId}
       </p>
 
       <div class="display-flex flex-direction-row align-items-center">
