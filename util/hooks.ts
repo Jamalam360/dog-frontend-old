@@ -124,15 +124,17 @@ export function useIndex(
   snowflake: string,
 ): [number, StateUpdater<number>] {
   const [s, set] = useState(0);
+  const [usedProperty, setUsedProperty] = useState(false);
 
-  if (property) {
+  if (property && !usedProperty) {
     set(property);
+    setUsedProperty(true);
   }
 
   useEffect(() => {
     fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}`).then((res) =>
       res.json().then((json) => {
-        if (!property) {
+        if (!property && !usedProperty) {
           set(json.index);
         }
       })

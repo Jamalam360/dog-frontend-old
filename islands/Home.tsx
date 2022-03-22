@@ -3,7 +3,6 @@ import { h, useEffect, useState } from "../client_deps.ts";
 import {
   useHorizontalSwipeListener,
   useIndex,
-  useLocalStorageBackedState,
   useSettings,
   useSnowflake,
 } from "../util/hooks.ts";
@@ -22,16 +21,6 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
   const [vote, setVote] = useState(0);
   const [settings, _1] = useSettings();
   const [snowflake, _2] = useSnowflake();
-
-  // const [index, setIndex] = useLocalStorageBackedState<number>(
-  //   "index",
-  //   {
-  //     defaultValue: 0,
-  //     preferredValue: indexProp,
-  //     type: "number",
-  //   },
-  // );
-
   const [index, setIndex] = useIndex(indexProp, snowflake);
 
   useEffect(() => { // Update the image when the vote value changes
