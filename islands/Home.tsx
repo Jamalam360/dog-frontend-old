@@ -7,14 +7,9 @@ import {
   useSnowflake,
 } from "../util/hooks.ts";
 import { share } from "../util/share.ts";
+import { getImage, Image, vote as voteRequest } from "../util/backend.ts";
 
-import Image from "../components/Image.tsx";
-
-interface Image {
-  url?: string;
-  votes?: number;
-  voteValue?: number;
-}
+import ImageComponent from "../components/Image.tsx";
 
 export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
   const [image, setImage] = useState({} as Image);
@@ -27,23 +22,19 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
     if (snowflake == "" || index == -1) return;
 
     if (image.voteValue != vote) {
-      fetch(
-        `https://dog.jamalam.tech:8002/v0/posts/${index}/vote/${vote}/${snowflake}`,
-      ).then((res) => {
-        res.json().then((json) => {
-          setImage({
-            url: json.url,
-            votes: json.votes,
-            voteValue: json.value,
-          });
+      voteRequest(
+        index,
+        snowflake,
+        vote == 1 ? "up" : vote == -1 ? "down" : "none",
+      ).then((img) => {
+        setImage(img);
 
-          if (settings!.advanceOnVote) {
-            setTimeout(
-              () => setIndex(index! + 1),
-              settings!.hideTotal ? 650 : 350,
-            );
-          }
-        });
+        if (settings!.advanceOnVote) {
+          setTimeout(
+            () => setIndex(index! + 1),
+            settings!.hideTotal ? 650 : 350,
+          );
+        }
       });
     }
   }, [vote]);
@@ -51,17 +42,9 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
   useEffect(() => { // Update the image state when the index or snowflake update
     if (snowflake == "" || index == -1) return;
 
-    fetch(`https://dog.jamalam.tech:8002/v0/posts/${index}/${snowflake}`).then(
-      (res) => {
-        res.json().then((json) => {
-          setImage({
-            url: json.url,
-            votes: json.votes,
-            voteValue: json.value,
-          });
-        });
-      },
-    );
+    getImage(index, snowflake).then((img) => {
+      setImage(img);
+    });
   }, [index, snowflake]);
 
   useEffect(() => {
@@ -110,7 +93,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
           }}
         />
       </div>
-      <Image
+      <ImageComponent
         source={image.url}
         alt="Image of Dog"
         class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px"

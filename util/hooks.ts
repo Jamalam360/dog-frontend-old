@@ -1,5 +1,6 @@
 import { StateUpdater, useEffect, useState } from "../client_deps.ts";
 import { Settings } from "../islands/Settings.tsx";
+import { getUserIndex, setUserIndex } from "./backend.ts";
 
 export function useLocalStorageBackedState<T>(
   key: string,
@@ -132,17 +133,15 @@ export function useIndex(
   }
 
   useEffect(() => {
-    fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}`).then((res) =>
-      res.json().then((json) => {
-        if (!property && !usedProperty) {
-          set(json.index);
-        }
-      })
-    );
+    getUserIndex(snowflake).then((number) => {
+      if (!property && !usedProperty) {
+        set(number);
+      }
+    });
   }, [snowflake]);
 
   useEffect(() => {
-    fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}/setIndex/${s}`);
+    setUserIndex(s, snowflake);
   }, [s]);
 
   return [s, set];

@@ -1,6 +1,7 @@
 /** @jsx h */
 import { h, useEffect, useState } from "../client_deps.ts";
 import { useSettings, useSnowflake } from "../util/hooks.ts";
+import { getUserLoginCode } from "../util/backend.ts";
 
 export interface Settings {
   advanceOnVote: boolean;
@@ -16,13 +17,7 @@ export default function Settings(
 
   useEffect(() => {
     if (snowflake != "unset") {
-      fetch(`https://dog.jamalam.tech:8002/v0/user/${snowflake}`).then((
-        res,
-      ) =>
-        res.json().then((json) => {
-          setLoginCode(json.loginCode);
-        })
-      );
+      getUserLoginCode(snowflake).then(setLoginCode);
     }
   }, [snowflake]);
 
