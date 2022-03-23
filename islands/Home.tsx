@@ -104,7 +104,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
       <div class="display-flex flex-direction-row pad-vertical-20px">
         <i
           class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation ${
-            image.voteValue == -1 ? "color-yellow-shadow" : ""
+            image.voteValue == -1 ? "color-red-shadow" : ""
           }`}
           onClick={(_) => {
             if (image.voteValue == 0 || image.voteValue == 1) {

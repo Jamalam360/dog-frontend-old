@@ -5,3 +5,7 @@
 .color-yellow-shadow {
   filter: opacity(0.5) drop-shadow(0 0 0 yellow);
 }
+
+.color-red-shadow {
+  filter: opacity(0.5) drop-shadow(0 0 0 #ff6500);
+}
