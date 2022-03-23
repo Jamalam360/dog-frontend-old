@@ -74,8 +74,8 @@ export async function getUserIndex(snowflake: string): Promise<number> {
   return json.index;
 }
 
-export function setUserIndex(index: number, snowflake: string) {
-  fetch(`https://dog.jamalam.tech:8002/v0/user`, {
+export async function setUserIndex(index: number, snowflake: string) {
+  await fetch(`https://dog.jamalam.tech:8002/v0/user`, {
     method: "POST",
     headers: {
       Snowflake: snowflake,
