@@ -134,12 +134,9 @@ export function useIndex(
 
   useEffect(() => {
     getUserIndex(snowflake).then((number) => {
-      console.log("Fetched state: " + number);
       console.log("State fetch: " + s);
-      if (s != 0) {
-        console.log("Setting state: " + number);
-        set(number);
-      }
+      console.log("Setting state: " + number);
+      set(number);
     });
   }, [snowflake]);
 
