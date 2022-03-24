@@ -124,18 +124,24 @@ export function useIndex(
   property: number | undefined,
   snowflake: string,
 ): [number, StateUpdater<number>] {
-  const [s, set] = useState(property ?? 0);
+  let state = 0;
+
+  if (property) {
+    state = property;
+  }
+
+  const [s, set] = useState(state);
 
   useEffect(() => {
     getUserIndex(snowflake).then((number) => {
-      if (property === undefined) {
+      if (state != 0) {
         set(number);
       }
     });
   }, [snowflake]);
 
   useEffect(() => {
-    if (s == 0 && !property) return;
+    if (s == 0) return;
     setUserIndex(s, snowflake);
   }, [s]);
 
