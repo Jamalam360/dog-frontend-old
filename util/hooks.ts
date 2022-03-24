@@ -131,17 +131,19 @@ export function useIndex(
   }
 
   const [s, set] = useState(state);
+  const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
     getUserIndex(snowflake).then((number) => {
       console.log("State fetch: " + s);
       console.log("Setting state: " + number);
       set(number);
+      setHasFetched(true);
     });
   }, [snowflake]);
 
   useEffect(() => {
-    if (s == property) return;
+    if (!hasFetched) return;
     console.log("Updating index: " + s);
     setUserIndex(s, snowflake);
   }, [s]);
