@@ -134,8 +134,8 @@ export function useIndex(
 
   useEffect(() => {
     getUserIndex(snowflake).then((number) => {
-      if (state != 1) {
-        console.log("Setting state to " + number);
+      if (s != 0) {
+        console.log("Setting state: " + number);
         set(number);
       }
     });
@@ -143,7 +143,7 @@ export function useIndex(
 
   useEffect(() => {
     if (s != property) return;
-    console.log("Updating index to: " + s);
+    console.log("Updating index: " + s);
     setUserIndex(s, snowflake);
   }, [s]);
 
