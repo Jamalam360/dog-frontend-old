@@ -142,7 +142,7 @@ export function useIndex(
   }, [snowflake]);
 
   useEffect(() => {
-    if (s != property) return;
+    if (s == property) return;
     console.log("Updating index: " + s);
     setUserIndex(s, snowflake);
   }, [s]);
