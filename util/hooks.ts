@@ -135,6 +135,7 @@ export function useIndex(
   }, [snowflake]);
 
   useEffect(() => {
+    if (s == 0 && !property) return;
     setUserIndex(s, snowflake);
   }, [s]);
 
