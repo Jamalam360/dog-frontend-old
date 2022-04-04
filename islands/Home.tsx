@@ -11,7 +11,7 @@ import { getImage, Image, vote as voteRequest } from "../util/backend.ts";
 
 import ImageComponent from "../components/Image.tsx";
 
-export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
+export default function Home({ indexProp }: { indexProp?: number }) {
   const [image, setImage] = useState({} as Image);
   const [vote, setVote] = useState(0);
   const [settings, _1] = useSettings();
@@ -96,12 +96,12 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
       <ImageComponent
         source={image.url}
         alt="Image of Dog"
-        class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px blue-border-5px"
+        class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px blue-border-5px margin-horizontal-5px"
         onDblClick={(_) => {
           window.open(image.url, "_blank")?.focus();
         }}
       />
-      <div class="display-flex flex-direction-row pad-vertical-20px">
+      <div class="display-flex flex-direction-row pad-vertical-10px">
         <i
           class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation blue-border-arrow margin-horizontal-10px ${
             image.voteValue == -1 ? "color-red-shadow" : ""

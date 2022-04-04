@@ -7,9 +7,9 @@
   padding-right: 10px;
 }
 
-.margin-horizontal-10px {
-  margin-left: 10px;
-  margin-right: 10px;
+.margin-horizontal-5px {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .pad-horizontal-20px {
@@ -25,6 +25,11 @@
 .pad-vertical-5px {
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+.pad-vertical-10px {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .pad-vertical-20px {
