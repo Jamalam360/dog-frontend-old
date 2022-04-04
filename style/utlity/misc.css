@@ -15,3 +15,7 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+.blue-border {
+  border: 5px solid #1599A2;
+}

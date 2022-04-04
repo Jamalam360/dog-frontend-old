@@ -96,14 +96,14 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
       <ImageComponent
         source={image.url}
         alt="Image of Dog"
-        class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px"
+        class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px blue-border"
         onDblClick={(_) => {
           window.open(image.url, "_blank")?.focus();
         }}
       />
       <div class="display-flex flex-direction-row pad-vertical-20px">
         <i
-          class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation ${
+          class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation blue-border ${
             image.voteValue == -1 ? "color-red-shadow" : ""
           }`}
           onClick={(_) => {
@@ -115,7 +115,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
           }}
         />
         <i
-          class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation ${
+          class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation blue-border ${
             image.voteValue == 1 ? "color-yellow-shadow" : ""
           }`}
           onClick={(_) => {
