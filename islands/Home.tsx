@@ -96,7 +96,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
       <ImageComponent
         source={image.url}
         alt="Image of Dog"
-        class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px blue-border"
+        class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px blue-border-5px"
         onDblClick={(_) => {
           window.open(image.url, "_blank")?.focus();
         }}
