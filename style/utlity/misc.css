@@ -16,6 +16,12 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-.blue-border {
+.blue-border-5px {
   border: 5px solid #1599A2;
+}
+
+.blue-border-arrow {
+  border: 5px solid #1599A2;
+  border-left: 2px solid #1599A2;
+  border-right: 2px solid #1599A2; 
 }

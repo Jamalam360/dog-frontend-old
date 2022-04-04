@@ -103,7 +103,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
       />
       <div class="display-flex flex-direction-row pad-vertical-20px">
         <i
-          class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation blue-border ${
+          class={`fa-solid fa-arrow-down font-size-300p pad-horizontal-30px button-hover-animation blue-border-arrow ${
             image.voteValue == -1 ? "color-red-shadow" : ""
           }`}
           onClick={(_) => {
@@ -115,7 +115,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
           }}
         />
         <i
-          class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation blue-border ${
+          class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation blue-border-arrow ${
             image.voteValue == 1 ? "color-yellow-shadow" : ""
           }`}
           onClick={(_) => {
