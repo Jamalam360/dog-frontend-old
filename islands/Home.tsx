@@ -80,7 +80,6 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
             await share(`https://dog.jamalam.tech/share?i=${index}`);
           }}
         />
-        <ImageComponent source="/doogle.png" class="height-68px" />
         <i
           class="fa-solid fa-gear font-size-225p pad-horizontal-20px button-hover-animation"
           onClick={(_) => {
@@ -115,6 +114,7 @@ export default function RedirectToHome({ indexProp }: { indexProp?: number }) {
             }
           }}
         />
+        <ImageComponent source="/doogle.png" class="height-68px" />
         <i
           class={`fa-solid fa-arrow-up font-size-300p pad-horizontal-30px button-hover-animation blue-border-arrow margin-horizontal-10px ${
             image.voteValue == 1 ? "color-yellow-shadow" : ""
