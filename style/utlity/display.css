@@ -29,3 +29,10 @@
 .border-radius-10px {
   border-radius: 10px;
 }
+
+.background-image {
+  background-image: url("/doogle.png");
+  background-size: contain;
+  background-position: 100px 5px;
+  background-repeat: repeat;
+}
