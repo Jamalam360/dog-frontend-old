@@ -22,6 +22,6 @@
 
 .blue-border-arrow {
   border: 5px solid #1599A2;
-  border-left: 2px solid #1599A2;
-  border-right: 2px solid #1599A2; 
+  border-left: -2px solid #1599A2;
+  border-right: -2px solid #1599A2; 
 }
