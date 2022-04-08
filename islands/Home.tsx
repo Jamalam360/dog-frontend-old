@@ -7,12 +7,16 @@ import {
   useSnowflake,
 } from "../util/hooks.ts";
 import { share } from "../util/share.ts";
-import { getImage, Image, vote as voteRequest } from "../util/backend.ts";
+import {
+  getImage,
+  Image as ImageType,
+  vote as voteRequest,
+} from "../util/backend.ts";
 
 import ImageComponent from "../components/Image.tsx";
 
 export default function Home({ indexProp }: { indexProp?: number }) {
-  const [image, setImage] = useState({} as Image);
+  const [image, setImage] = useState({} as ImageType);
   const [vote, setVote] = useState(0);
   const [settings, _1] = useSettings();
   const [snowflake, _2] = useSnowflake();
