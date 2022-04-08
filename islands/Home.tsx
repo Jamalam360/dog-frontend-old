@@ -53,7 +53,11 @@ export default function Home({ indexProp }: { indexProp?: number }) {
 
   useEffect(() => {
     setVote(image.voteValue!);
-    getImage(index, snowflake).then((img) => {
+    getImage(index + 1, snowflake).then((img) => {
+      const image = new Image();
+      image.src = img.url!;
+    });
+    getImage(index + 2, snowflake).then((img) => {
       const image = new Image();
       image.src = img.url!;
     });
