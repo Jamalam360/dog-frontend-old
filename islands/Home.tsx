@@ -49,6 +49,10 @@ export default function Home({ indexProp }: { indexProp?: number }) {
 
   useEffect(() => {
     setVote(image.voteValue!);
+    getImage(index, snowflake).then((img) => {
+      const image = new Image();
+      image.src = img.url!;
+    });
   }, [image]);
 
   if (index == -1 || snowflake == "" || !image.url) return <div />; // Wait until the useEffect's have run
@@ -96,7 +100,7 @@ export default function Home({ indexProp }: { indexProp?: number }) {
       <ImageComponent
         source={image.url}
         alt="Image of Dog"
-        class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px blue-border-5px margin-horizontal-5px"
+        class="min-height-60vh max-height-60vh object-fit-cover border-radius-10px blue-border-5px"
         onDblClick={(_) => {
           window.open(image.url, "_blank")?.focus();
         }}
