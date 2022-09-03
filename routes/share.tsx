@@ -30,7 +30,7 @@ export const handler = async (
   return ctx.render(
     {
       image: (await (await fetch(
-        `https://dog.jamalam.tech:8002/v0/posts/${params.get("i")}`,
+        `https://dog.jamalam.tech/v0/posts/${params.get("i")}`,
       )).json()).url,
       index: index,
     },

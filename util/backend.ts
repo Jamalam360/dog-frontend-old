@@ -9,7 +9,7 @@ export async function getImage(
   snowflake: string,
 ): Promise<Image> {
   const res = await fetch(
-    `https://dog.jamalam.tech:8002/v0/posts/${index}`,
+    `https://dog.jamalam.tech/v0/posts/${index}`,
     {
       headers: {
         "Snowflake": snowflake,
@@ -33,7 +33,7 @@ export async function vote(
 ): Promise<Image> {
   const voteNumber = vote == "up" ? 1 : (vote == "down") ? -1 : 0;
   const res = await fetch(
-    `https://dog.jamalam.tech:8002/v0/posts/${index}`,
+    `https://dog.jamalam.tech/v0/posts/${index}`,
     {
       method: "POST",
       headers: {
@@ -55,7 +55,7 @@ export async function vote(
 }
 
 export async function getUserLoginCode(snowflake: string): Promise<string> {
-  const res = await fetch(`https://dog.jamalam.tech:8002/v0/user`, {
+  const res = await fetch(`https://dog.jamalam.tech/v0/user`, {
     headers: {
       Snowflake: snowflake,
     },
@@ -65,7 +65,7 @@ export async function getUserLoginCode(snowflake: string): Promise<string> {
 }
 
 export async function getUserIndex(snowflake: string): Promise<number> {
-  const res = await fetch(`https://dog.jamalam.tech:8002/v0/user`, {
+  const res = await fetch(`https://dog.jamalam.tech/v0/user`, {
     headers: {
       Snowflake: snowflake,
     },
@@ -75,7 +75,7 @@ export async function getUserIndex(snowflake: string): Promise<number> {
 }
 
 export function setUserIndex(index: number, snowflake: string) {
-  fetch(`https://dog.jamalam.tech:8002/v0/user`, {
+  fetch(`https://dog.jamalam.tech/v0/user`, {
     method: "POST",
     headers: {
       Snowflake: snowflake,

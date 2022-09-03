@@ -19,7 +19,7 @@ export const handler = async (
     return ctx.render(
       {
         image: (await (await fetch(
-          `https://dog.jamalam.tech:8002/v0/posts/${params.get("i")}`,
+          `https://dog.jamalam.tech/v0/posts/${params.get("i")}`,
         )).json()).url,
         index: parseInt(params.get("i")!),
       },
@@ -28,7 +28,7 @@ export const handler = async (
 
   return ctx.render({
     image: (await (await fetch(
-      `https://dog.jamalam.tech:8002/v0/posts/0`,
+      `https://dog.jamalam.tech/v0/posts/0`,
     )).json()).url,
     index: undefined,
   });

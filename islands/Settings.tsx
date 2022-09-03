@@ -93,7 +93,7 @@ export default function Settings(
           }
 
           fetch(
-            `https://dog.jamalam.tech:8002/v0/user/login/${
+            `https://dog.jamalam.tech/v0/user/login/${
               code?.toUpperCase()
             }`,
           ).then((

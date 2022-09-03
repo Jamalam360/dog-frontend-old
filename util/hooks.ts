@@ -98,7 +98,7 @@ export function useSnowflake(): [string, StateUpdater<string>] {
 
   useEffect(() => { // Generate a new one if unset
     if (s == "unset") {
-      fetch("https://dog.jamalam.tech:8002/v0/user/new").then((res) =>
+      fetch("https://dog.jamalam.tech/v0/user/new").then((res) =>
         res.json().then((json) => {
           set(json.snowflake);
         })
